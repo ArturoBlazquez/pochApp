@@ -1,0 +1,25 @@
+<nz-space nzDirection="vertical" nzSize="middle" style="width:100%">
+  <nz-card nzTitle="Add players">
+    <nz-space nzDirection="vertical" style="width:100%">
+      <nz-input-group>
+        <nz-space nzDirection="vertical" style="width:100%">
+          <input nz-input placeholder="Player name" [(ngModel)]="playerName" (keydown.enter)="addPlayer()" />
+          <button nz-button nzType="primary" nzBlock (click)="addPlayer()">Add player</button>
+        </nz-space>
+      </nz-input-group>
+
+      <nz-list nzBordered>
+        @for (player of players(); track player) {
+          <nz-list-item>
+            <nz-avatar nzText="{{ player[0] }}"></nz-avatar>
+            <span style="margin-left:12px">{{ player }}</span>
+          </nz-list-item>
+        } @empty {
+          <nz-empty nzNotFoundImage="simple" [nzNotFoundContent]="'No players added'"></nz-empty>
+        }
+      </nz-list>
+
+      <button nz-button nzType="primary" nzBlock [disabled]="players().length < 2" (click)="next.emit()">Start game</button>
+    </nz-space>
+  </nz-card>
+</nz-space>

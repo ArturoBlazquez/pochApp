@@ -1,0 +1,25 @@
+<nz-card [nzTitle]="'Results - Hand ' + maxTricks()">
+  <nz-space nzDirection="vertical" style="width:100%">
+    <nz-list>
+      @for (hand of hands(); track hand.playerId) {
+        <nz-list-item>
+          <nz-avatar nzText="{{ hand.playerId[0] }}"></nz-avatar>
+          <span style="flex:1; margin-left:12px">{{ hand.playerId }} ({{ hand.predicted }})</span>
+
+          <nz-input-number [(ngModel)]="hand.actual" [nzMin]="0" [nzMax]="maxTricks()" [nzControls]="true"/>
+
+          <nz-tag [nzColor]="preview()(hand) >= 0 ? 'green' : 'red'">
+            {{ preview()(hand) }}
+          </nz-tag>
+        </nz-list-item>
+      }
+    </nz-list>
+
+    <button nz-button nzBlock (click)="back.emit()">Back</button>
+    <button nz-button nzType="primary" nzBlock (click)="next.emit()">Next</button>
+<!--    <button nz-button nzType="primary" nzBlock [disabled]="totalActualHands() !== maxTricks()" (click)="next.emit()">Next</button>-->
+  </nz-space>
+</nz-card>
+
+<!--TODO: delete this-->
+<!--Total tricks played: {{ totalActualHands() }}-->

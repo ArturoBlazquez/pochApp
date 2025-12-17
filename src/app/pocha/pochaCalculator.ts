@@ -4,7 +4,7 @@ export type PlayerResult = {
   actual: number;
 };
 
-export function scorePochaHand(results: PlayerResult[]): { playerId: string; handScore: number }[] {
+function scorePochaHand(results: PlayerResult[]): { playerId: string; handScore: number }[] {
   return results.map(({ playerId, predicted, actual }) => {
     const diff = Math.abs(actual - predicted);
     const handScore = diff === 0 ? 10 + 5 * actual : -5 * diff;

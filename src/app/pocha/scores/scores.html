@@ -1,0 +1,18 @@
+<nz-card [nzTitle]="'Scores - Hand ' + maxTricks()">
+  <nz-space nzDirection="vertical" style="width:100%">
+    <nz-table nzBordered [nzData]="hands()" [nzShowPagination]="false">
+      <tbody>
+        @for (hand of hands()[0]; track hand.playerId) {
+          <tr>
+            <td>{{ hand.playerId }}</td>
+            <td>{{ totals()[hand.playerId] }}</td>
+          </tr>
+        }
+      </tbody>
+    </nz-table>
+
+    <button nz-button nzBlock (click)="back.emit()">Back</button>
+    <button nz-button nzType="primary" nzBlock (click)="next.emit()">Next</button>
+    <button nz-button nzDanger (click)="end.emit()">End game</button>
+  </nz-space>
+</nz-card>

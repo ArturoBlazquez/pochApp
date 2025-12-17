@@ -1,0 +1,67 @@
+<nz-page-header nzTitle="Pocha Score Tracker"></nz-page-header>
+
+<nz-steps
+  [nzCurrent]="
+    stage() === 'setup' ? 0 :
+    stage() === 'predictions' ? 1 :
+    stage() === 'results' ? 2 : 3
+  "
+  nzSize="small"
+>
+  <nz-step nzTitle="Players"></nz-step>
+  <nz-step nzTitle="Predictions"></nz-step>
+  <nz-step nzTitle="Results"></nz-step>
+  <nz-step nzTitle="Scores"></nz-step>
+</nz-steps>
+
+<nz-divider></nz-divider>
+
+@if (stage() === 'setup') {
+  <player-setup
+    [(players)]="players"
+    (next)="next()"
+  />
+}
+
+@if (stage() === 'predictions') {
+  <predictions-step
+    [(hands)]="this.hands()[this.currentHandIndex]"
+    [maxTricks]="this.currentHandIndex+1"
+    (next)="next()"
+    (back)="back()"
+  />
+}
+
+@if (stage() === 'results') {
+  <results-step
+    [(hands)]="this.hands()[this.currentHandIndex]"
+    [maxTricks]="this.currentHandIndex+1"
+    [preview]="preview"
+    (next)="next()"
+    (back)="back()"
+  />
+}
+
+@if (stage() === 'scoreboard') {
+  <scores-step
+    [hands]="this.hands()"
+    [maxTricks]="this.currentHandIndex+1"
+    (next)="next()"
+    (back)="back()"
+    (end)="endGame()"
+  />
+}
+
+@if (stage() === 'ended') {
+  <nz-card nzTitle="Game Over">
+    <nz-list>
+      @for (p of players(); track p) {
+        <nz-list-item>
+          {{ p }} — {{ totals[p] }}
+        </nz-list-item>
+      }
+    </nz-list>
+
+    <button nz-button (click)="back()">Back</button>
+  </nz-card>
+}

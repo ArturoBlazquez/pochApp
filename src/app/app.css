@@ -1,0 +1,7 @@
+app-pocha {
+  width: 100%;
+  display: block;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 10px;
+}

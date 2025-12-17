@@ -1,0 +1,17 @@
+<nz-card [nzTitle]="'Predictions - Hand ' + maxTricks()">
+  <nz-space nzDirection="vertical" style="width:100%">
+    <nz-list>
+      @for (hand of hands(); track hand.playerId) {
+        <nz-list-item>
+          <nz-avatar nzText="{{ hand.playerId[0] }}"></nz-avatar>
+          <span style="flex:1; margin-left:12px">{{ hand.playerId }}</span>
+
+          <nz-input-number [(ngModel)]="hand.predicted" [nzMin]="0" [nzMax]="maxTricks()" [nzControls]="true"/>
+        </nz-list-item>
+      }
+    </nz-list>
+
+    <button nz-button nzBlock (click)="back.emit()">Back</button>
+    <button nz-button nzType="primary" nzBlock (click)="next.emit()">Next</button>
+  </nz-space>
+</nz-card>
