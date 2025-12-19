@@ -13,7 +13,7 @@ import { ScoresStep } from './scores/scores';
 import { GameStore } from './game.store';
 import { HandSetup } from './hand-setup/hand-setup';
 
-type Stage = 'players-setup' | 'hand-setup' | 'predictions' | 'results' | 'scoreboard' | 'ended';
+type Stage = 'players-setup' | 'hand-setup' | 'predictions' | 'results' | 'scoreboard';
 
 @Component({
   selector: 'app-pocha',
@@ -48,7 +48,7 @@ export class Pocha {
     } else if (this.stage() === 'results') {
       this.stage.set('scoreboard');
     } else if (this.stage() === 'scoreboard') {
-      this.gameStore.currentHand.update(currentHand => currentHand + 1);
+      this.gameStore.currentHandIndex.update(currentHand => currentHand + 1);
       this.stage.set('predictions');
     }
   }
@@ -59,20 +59,14 @@ export class Pocha {
     } else if (this.stage() === 'scoreboard') {
       this.stage.set('results');
     } else if (this.stage() === 'predictions') {
-      if (this.gameStore.currentHand() === 0) {
+      if (this.gameStore.currentHandIndex() === 0) {
         this.stage.set('hand-setup');
       } else {
-        this.gameStore.currentHand.update(currentHand => currentHand - 1);
+        this.gameStore.currentHandIndex.update(currentHand => currentHand - 1);
         this.stage.set('scoreboard');
       }
     } else if (this.stage() === 'hand-setup') {
       this.stage.set('players-setup');
-    } else if (this.stage() === 'ended') {
-      this.stage.set('scoreboard');
     }
-  }
-
-  endGame() {
-    this.stage.set('ended');
   }
 }

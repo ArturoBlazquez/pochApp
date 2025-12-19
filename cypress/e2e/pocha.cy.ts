@@ -90,19 +90,20 @@ describe('Pocha Scoring App', () => {
     cy.contains('Back').click();
     cy.contains('Back').click();
 
-    // Change Alice's actual tricks from 0 -> 1
+    // Change tricks
     cy.get('input').eq(0).clear().type('1');
+    cy.get('input').eq(1).clear().type('0');
     cy.contains('Next').click();
 
     cy.get('td').contains('Alice').parent().should('contain', '-5');
-    cy.get('td').contains('Bob').parent().should('contain', '15');
+    cy.get('td').contains('Bob').parent().should('contain', '-5');
 
     cy.contains('Next').click();
     cy.contains('Next').click();
     cy.contains('Next').click();
 
     cy.get('td').contains('Alice').parent().should('contain', '10');
-    cy.get('td').contains('Bob').parent().should('contain', '10');
+    cy.get('td').contains('Bob').parent().should('contain', '-10');
   });
 
   it('creates default tricks per hand', () => {

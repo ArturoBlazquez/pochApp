@@ -6,6 +6,9 @@ import { calculateGameScore } from '../pochaCalculator';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { GameStore } from '../game.store';
+import { NzAvatarComponent } from 'ng-zorro-antd/avatar';
+import { NzFlexModule } from 'ng-zorro-antd/flex';
+import { NzDividerComponent } from 'ng-zorro-antd/divider';
 
 @Component({
   selector: 'scores-step',
@@ -15,6 +18,9 @@ import { GameStore } from '../game.store';
     NzSpaceModule,
     NzTableModule,
     NzIconModule,
+    NzAvatarComponent,
+    NzFlexModule,
+    NzDividerComponent,
   ],
   templateUrl: './scores.html',
 })
@@ -24,7 +30,12 @@ export class ScoresStep {
 
   next = output<void>();
   back = output<void>();
-  end = output<void>();
 
-  scores = computed(() => calculateGameScore(this.gameStore.hands(), this.gameStore.currentHand()));
+  scores = computed(() => calculateGameScore(this.gameStore.hands(), this.gameStore.currentHandIndex()));
+
+  maxScoreIndex = computed(() => this.scores().indexOf(Math.max(...this.scores())))
+
+  gameHasFinished() {
+    return this.gameStore.getCurrentHandNumber() == this.gameStore.hands().length
+  }
 }

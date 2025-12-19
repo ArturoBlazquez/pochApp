@@ -38,4 +38,8 @@ export class PredictionsStep {
   decrementPredictedBid(bid: Bid) {
     bid.predicted -= 1;
   }
+
+  getTotalPredictedTricks() {
+    return this.gameStore.getCurrentHand().bids.reduce((sum, p) => sum + (p.predicted ?? 0), 0)
+  }
 }

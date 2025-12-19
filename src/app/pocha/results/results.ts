@@ -48,5 +48,7 @@ export class ResultsStep {
     bid.actual -= 1;
   }
 
-  // totalActualHands = computed(() => this.hands().reduce((sum, p) => sum + (p.actual ?? 0), 0)); //TODO: fixme
+  getTotalActualTricks() {
+    return this.gameStore.getCurrentHand().bids.reduce((sum, p) => sum + (p.actual ?? 0), 0)
+  }
 }

@@ -1,7 +1,9 @@
 <nz-card [nzTitle]="'Predictions - Hand ' + gameStore.getCurrentHandNumber()">
   <nz-space nzDirection="vertical" style="width:100%">
+    <span>{{ gameStore.getCurrentDealer() }} deals {{ gameStore.getCurrentNumTricks() }} cards</span>
+
     <nz-list>
-      @for (bid of gameStore.hands()[gameStore.currentHand()].bids; track $index) {
+      @for (bid of gameStore.getCurrentHand().bids; track $index) {
         <nz-list-item>
           <nz-avatar nzText="{{ gameStore.players()[$index][0] }}"></nz-avatar>
           <span style="flex:1; margin-left:12px">{{ gameStore.players()[$index] }}</span>
@@ -12,6 +14,8 @@
         </nz-list-item>
       }
     </nz-list>
+
+    <span>Total predicted tricks {{getTotalPredictedTricks()}}</span>
 
     <button nz-button nzBlock (click)="back.emit()">
       <nz-icon nzType="arrow-left" /> Back

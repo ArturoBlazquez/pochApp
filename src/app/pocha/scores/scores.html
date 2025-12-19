@@ -1,5 +1,16 @@
 <nz-card [nzTitle]="'Scores - Hand ' + gameStore.getCurrentHandNumber()">
   <nz-space nzDirection="vertical" style="width:100%">
+    @if (gameHasFinished()) {
+      <div nz-flex nzJustify="space-around" nzAlign="center">
+        <nz-icon nzType="trophy" nzTheme="twotone" style="font-size: 30px;"/>
+        <nz-avatar nzText="{{ gameStore.players()[maxScoreIndex()][0] }}"></nz-avatar>
+        <span>{{ gameStore.players()[maxScoreIndex()] }}</span>
+        <nz-icon nzType="trophy" nzTheme="twotone" style="font-size: 30px;"/>
+      </div>
+
+      <nz-divider></nz-divider>
+    }
+
     <nz-table nzBordered [nzData]="gameStore.hands()" [nzShowPagination]="false">
       <tbody>
         @for (player of gameStore.players(); track player) {
@@ -15,11 +26,8 @@
     <button nz-button nzBlock (click)="back.emit()">
       <nz-icon nzType="arrow-left" /> Back
     </button>
-    <button nz-button nzType="primary" nzBlock (click)="next.emit()">
+    <button nz-button nzType="primary" nzBlock [disabled]="gameHasFinished()" (click)="next.emit()">
       Next <nz-icon nzType="arrow-right" />
-    </button>
-    <button nz-button nzDanger nzBlock (click)="end.emit()">
-      <nz-icon nzType="stop" /> End game
     </button>
   </nz-space>
 </nz-card>
