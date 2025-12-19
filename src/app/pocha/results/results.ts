@@ -1,4 +1,4 @@
-import { Component, input, model, output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzListModule } from 'ng-zorro-antd/list';
@@ -6,10 +6,11 @@ import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { FormsModule } from '@angular/forms';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
-import { PlayerResult } from '../pochaCalculator';
+import { Bid, calculateBidScore } from '../pochaCalculator';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { GameStore } from '../game.store';
 
 @Component({
   selector: 'results-step',
@@ -26,22 +27,25 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
     FormsModule,
   ],
   templateUrl: './results.html',
-  styleUrl: 'results.css'
+  styleUrl: 'results.css',
 })
 export class ResultsStep {
-  hands = model.required<PlayerResult[]>();
-  maxTricks = input.required<number>();
-  preview = input.required<(p: any) => number>();
+  constructor(protected gameStore: GameStore) {
+  }
 
   next = output<void>();
   back = output<void>();
 
-  incrementActualHand(hand: PlayerResult) {
-    hand.actual += 1;
+  preview = (bid: Bid) => {
+    return calculateBidScore(bid);
+  };
+
+  incrementActualBid(bid: Bid) {
+    bid.actual += 1;
   }
 
-  decrementActualHand(hand: PlayerResult) {
-    hand.actual -= 1;
+  decrementActualBid(bid: Bid) {
+    bid.actual -= 1;
   }
 
   // totalActualHands = computed(() => this.hands().reduce((sum, p) => sum + (p.actual ?? 0), 0)); //TODO: fixme

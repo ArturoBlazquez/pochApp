@@ -1,11 +1,11 @@
-<nz-card [nzTitle]="'Scores - Hand ' + maxTricks()">
+<nz-card [nzTitle]="'Scores - Hand ' + gameStore.getCurrentHandNumber()">
   <nz-space nzDirection="vertical" style="width:100%">
-    <nz-table nzBordered [nzData]="hands()" [nzShowPagination]="false">
+    <nz-table nzBordered [nzData]="gameStore.hands()" [nzShowPagination]="false">
       <tbody>
-        @for (hand of hands()[0]; track hand.playerId) {
+        @for (player of gameStore.players(); track player) {
           <tr>
-            <td>{{ hand.playerId }}</td>
-            <td>{{ totals()[hand.playerId] }}</td>
+            <td>{{ player }}</td>
+            <td>{{ scores()[$index] }}</td>
           </tr>
         }
       </tbody>

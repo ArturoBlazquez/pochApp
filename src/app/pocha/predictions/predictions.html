@@ -1,14 +1,14 @@
-<nz-card [nzTitle]="'Predictions - Hand ' + maxTricks()">
+<nz-card [nzTitle]="'Predictions - Hand ' + gameStore.getCurrentHandNumber()">
   <nz-space nzDirection="vertical" style="width:100%">
     <nz-list>
-      @for (hand of hands(); track hand.playerId) {
+      @for (bid of gameStore.hands()[gameStore.currentHand()].bids; track $index) {
         <nz-list-item>
-          <nz-avatar nzText="{{ hand.playerId[0] }}"></nz-avatar>
-          <span style="flex:1; margin-left:12px">{{ hand.playerId }}</span>
+          <nz-avatar nzText="{{ gameStore.players()[$index][0] }}"></nz-avatar>
+          <span style="flex:1; margin-left:12px">{{ gameStore.players()[$index] }}</span>
 
-          <button nz-button nzType="link" [disabled]="hand.predicted <= 0"  (click)="decrementPredictedHand(hand)"><nz-icon nzType="minus-circle" /></button>
-          <nz-input-number [(ngModel)]="hand.predicted" [nzMin]="0" [nzMax]="maxTricks()" [nzControls]="false"/>
-          <button nz-button nzType="link" [disabled]="hand.predicted >= maxTricks()" (click)="incrementPredictedHand(hand)"><nz-icon nzType="plus-circle" /></button>
+          <button nz-button nzType="link" [disabled]="bid.predicted <= 0"  (click)="decrementPredictedBid(bid)"><nz-icon nzType="minus-circle" /></button>
+          <nz-input-number [(ngModel)]="bid.predicted" [nzMin]="0" [nzMax]="gameStore.getCurrentNumTricks()" [nzControls]="false"/>
+          <button nz-button nzType="link" [disabled]="bid.predicted >= gameStore.getCurrentNumTricks()" (click)="incrementPredictedBid(bid)"><nz-icon nzType="plus-circle" /></button>
         </nz-list-item>
       }
     </nz-list>

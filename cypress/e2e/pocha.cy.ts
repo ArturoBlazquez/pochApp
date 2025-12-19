@@ -21,7 +21,8 @@ describe('Pocha Scoring App', () => {
     cy.contains('Charlie').should('not.exist');
 
     // Predictions
-    cy.contains('Start game').click();
+    cy.contains('Next').click();
+    cy.contains('Next').click();
     cy.contains('Alice');
     cy.contains('Bob');
     cy.contains('Charlie').should('not.exist');
@@ -31,7 +32,8 @@ describe('Pocha Scoring App', () => {
     // Add players
     cy.get('input[placeholder="Player name"]').type('Alice{enter}');
     cy.get('input[placeholder="Player name"]').type('Bob{enter}');
-    cy.contains('Start game').click();
+    cy.contains('Next').click();
+    cy.contains('Next').click();
 
     // Predictions
     cy.get('input').eq(0).clear().type('1');
@@ -54,7 +56,8 @@ describe('Pocha Scoring App', () => {
     // Add players
     cy.get('input[placeholder="Player name"]').type('Alice{enter}');
     cy.get('input[placeholder="Player name"]').type('Bob{enter}');
-    cy.contains('Start game').click();
+    cy.contains('Next').click();
+    cy.contains('Next').click();
 
     // Hand 1 predictions, results and scores
     cy.get('input').eq(0).clear().type('0');
@@ -94,12 +97,58 @@ describe('Pocha Scoring App', () => {
     cy.get('td').contains('Alice').parent().should('contain', '-5');
     cy.get('td').contains('Bob').parent().should('contain', '15');
 
-
     cy.contains('Next').click();
     cy.contains('Next').click();
     cy.contains('Next').click();
 
     cy.get('td').contains('Alice').parent().should('contain', '10');
     cy.get('td').contains('Bob').parent().should('contain', '10');
+  });
+
+  it('creates default tricks per hand', () => {
+    cy.get('input[placeholder="Player name"]').type('Alice{enter}');
+    cy.get('input[placeholder="Player name"]').type('Bob{enter}');
+    cy.contains('Next').click();
+
+    cy.get('li[nz-list-item]').should('have.length', 40);
+    cy.get('li[nz-list-item]').eq(0).contains(1);
+    cy.get('li[nz-list-item]').eq(1).contains(2);
+    cy.get('li[nz-list-item]').eq(18).contains(19);
+    cy.get('li[nz-list-item]').eq(19).contains(20);
+    cy.get('li[nz-list-item]').eq(20).contains(20);
+    cy.get('li[nz-list-item]').eq(21).contains(19);
+    cy.get('li[nz-list-item]').eq(38).contains(2);
+    cy.get('li[nz-list-item]').eq(39).contains(1);
+
+    cy.contains('Back').click();
+    cy.get('input[placeholder="Player name"]').type('Charlie{enter}');
+    cy.get('input[placeholder="Player name"]').type('David{enter}');
+    cy.contains('Next').click();
+
+    cy.get('li[nz-list-item]').should('have.length', 22);
+    cy.get('li[nz-list-item]').eq(0).contains(1);
+    cy.get('li[nz-list-item]').eq(1).contains(2);
+    cy.get('li[nz-list-item]').eq(8).contains(9);
+    cy.get('li[nz-list-item]').eq(9).contains(10);
+    cy.get('li[nz-list-item]').eq(10).contains(10);
+    cy.get('li[nz-list-item]').eq(11).contains(10);
+    cy.get('li[nz-list-item]').eq(12).contains(10);
+    cy.get('li[nz-list-item]').eq(13).contains(9);
+    cy.get('li[nz-list-item]').eq(20).contains(2);
+    cy.get('li[nz-list-item]').eq(21).contains(1);
+  });
+
+  it('edit tricks per hand', () => {
+    cy.get('input[placeholder="Player name"]').type('Alice{enter}');
+    cy.get('input[placeholder="Player name"]').type('Bob{enter}');
+    cy.contains('Next').click();
+
+    cy.get('li[nz-list-item]').eq(19).find('button').click();
+    cy.get('li[nz-list-item]').should('have.length', 39);
+
+    cy.get('input').type('50{enter}');
+
+    cy.get('li[nz-list-item]').should('have.length', 40);
+    cy.get('li[nz-list-item]').eq(39).contains(50);
   });
 });

@@ -1,5 +1,5 @@
 import { Component, signal, WritableSignal } from '@angular/core';
-import { cumulativeScores, PlayerResult } from './pochaCalculator';
+import { Bid } from './pochaCalculator';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzStepsModule } from 'ng-zorro-antd/steps';
 import { NzCardModule } from 'ng-zorro-antd/card';
@@ -10,8 +10,10 @@ import { PlayerSetup } from './player-setup/player-setup';
 import { PredictionsStep } from './predictions/predictions';
 import { ResultsStep } from './results/results';
 import { ScoresStep } from './scores/scores';
+import { GameStore } from './game.store';
+import { HandSetup } from './hand-setup/hand-setup';
 
-type Stage = 'setup' | 'predictions' | 'results' | 'scoreboard' | 'ended';
+type Stage = 'players-setup' | 'hand-setup' | 'predictions' | 'results' | 'scoreboard' | 'ended';
 
 @Component({
   selector: 'app-pocha',
@@ -26,60 +28,28 @@ type Stage = 'setup' | 'predictions' | 'results' | 'scoreboard' | 'ended';
     NzStepsModule,
     NzPageHeaderModule,
     NzDividerModule,
+    HandSetup,
   ],
   templateUrl: './pocha.html',
 })
 export class Pocha {
-  stage: WritableSignal<Stage> = signal('setup');
-  players = signal<string[]>([]);
-  hands = signal<PlayerResult[][]>([]);
-  currentHandIndex = 0;
-
-  get totals() {
-    return cumulativeScores(this.hands());
+  constructor(private gameStore: GameStore) {
   }
 
-  startGame() {
-    this.hands.set([this.createHand()]);
-    this.currentHandIndex = 0;
-    this.stage.set('predictions');
-  }
-
-  createHand(): PlayerResult[] {
-    return this.players().map(p => ({
-      playerId: p,
-      predicted: 0,
-      actual: 0,
-    }));
-  }
-
-  preview(p: PlayerResult) {
-    const diff = Math.abs(p.predicted - p.actual);
-    return diff === 0 ? 10 + 5 * p.actual : -5 * diff;
-  }
-
-  nextHand() {
-    if (this.currentHandIndex === this.hands().length - 1) {
-      this.hands.update(hands => [...hands, this.createHand()]);
-    }
-    this.currentHandIndex = this.currentHandIndex + 1;
-    this.stage.set('predictions');
-  }
-
-  previousHand() {
-    this.currentHandIndex = this.currentHandIndex - 1;
-    this.stage.set('scoreboard');
-  }
+  stage: WritableSignal<Stage> = signal('players-setup');
 
   next() {
-    if (this.stage() === 'setup') {
-      this.startGame();
+    if (this.stage() === 'players-setup') {
+      this.stage.set('hand-setup');
+    } else if (this.stage() === 'hand-setup') {
+      this.stage.set('predictions');
     } else if (this.stage() === 'predictions') {
       this.stage.set('results');
     } else if (this.stage() === 'results') {
       this.stage.set('scoreboard');
     } else if (this.stage() === 'scoreboard') {
-      this.nextHand();
+      this.gameStore.currentHand.update(currentHand => currentHand + 1);
+      this.stage.set('predictions');
     }
   }
 
@@ -89,11 +59,14 @@ export class Pocha {
     } else if (this.stage() === 'scoreboard') {
       this.stage.set('results');
     } else if (this.stage() === 'predictions') {
-      if (this.currentHandIndex === 0) {
-        this.stage.set('setup');
+      if (this.gameStore.currentHand() === 0) {
+        this.stage.set('hand-setup');
       } else {
-        this.previousHand();
+        this.gameStore.currentHand.update(currentHand => currentHand - 1);
+        this.stage.set('scoreboard');
       }
+    } else if (this.stage() === 'hand-setup') {
+      this.stage.set('players-setup');
     } else if (this.stage() === 'ended') {
       this.stage.set('scoreboard');
     }
@@ -101,10 +74,5 @@ export class Pocha {
 
   endGame() {
     this.stage.set('ended');
-  }
-
-  jumpToHand(i: number) {
-    this.currentHandIndex = i;
-    this.stage.set('scoreboard');
   }
 }

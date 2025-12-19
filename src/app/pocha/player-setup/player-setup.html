@@ -11,7 +11,7 @@
       </nz-input-group>
 
       <nz-list nzBordered>
-        @for (player of players(); track player) {
+        @for (player of gameStore.players(); track player) {
           <li nz-list-item nzNoFlex>
             <nz-avatar nzText="{{ player[0] }}"></nz-avatar>
             <span style="margin-left:12px">{{ player }}</span>
@@ -26,8 +26,8 @@
         }
       </nz-list>
 
-      <button nz-button nzType="primary" nzBlock [disabled]="players().length < 2" (click)="next.emit()">
-        Start game <nz-icon nzType="arrow-right" />
+      <button nz-button nzType="primary" nzBlock [disabled]="gameStore.players().length < 2" (click)="next.emit()">
+        Next <nz-icon nzType="arrow-right" />
       </button>
     </nz-space>
   </nz-card>
