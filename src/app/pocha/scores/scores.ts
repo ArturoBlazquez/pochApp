@@ -4,6 +4,7 @@ import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { cumulativeScores, PlayerResult } from '../pochaCalculator';
 import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @Component({
   selector: 'scores-step',
@@ -12,6 +13,7 @@ import { NzTableModule } from 'ng-zorro-antd/table';
     NzCardModule,
     NzSpaceModule,
     NzTableModule,
+    NzIconModule,
   ],
   templateUrl: './scores.html',
 })

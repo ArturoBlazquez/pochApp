@@ -7,6 +7,7 @@ import { NzListModule } from 'ng-zorro-antd/list';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { FormsModule } from '@angular/forms';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @Component({
   selector: 'player-setup',
@@ -18,6 +19,7 @@ import { NzEmptyModule } from 'ng-zorro-antd/empty';
     NzInputModule,
     NzListModule,
     NzEmptyModule,
+    NzIconModule,
     FormsModule,
   ],
   templateUrl: './player-setup.html',
@@ -32,8 +34,12 @@ export class PlayerSetup {
   addPlayer() {
     let newPlayer = this.playerName.trim();
     if (newPlayer) {
-      this.players.update(player => [...player, newPlayer]);
+      this.players.update(players => [...players, newPlayer]);
       this.playerName = '';
     }
+  }
+
+  removePlayer(playerToRemove: string) {
+    this.players.update(players => players.filter(player => player !== playerToRemove));
   }
 }

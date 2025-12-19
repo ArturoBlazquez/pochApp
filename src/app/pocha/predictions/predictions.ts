@@ -7,6 +7,7 @@ import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { FormsModule } from '@angular/forms';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { PlayerResult } from '../pochaCalculator';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @Component({
   selector: 'predictions-step',
@@ -17,6 +18,7 @@ import { PlayerResult } from '../pochaCalculator';
     NzInputNumberModule,
     NzListModule,
     NzSpaceModule,
+    NzIconModule,
     FormsModule,
   ],
   templateUrl: './predictions.html',
@@ -27,4 +29,12 @@ export class PredictionsStep {
 
   next = output<void>();
   back = output<void>();
+
+  incrementPredictedHand(hand: PlayerResult) {
+    hand.predicted += 1;
+  }
+
+  decrementPredictedHand(hand: PlayerResult) {
+    hand.predicted -= 1;
+  }
 }

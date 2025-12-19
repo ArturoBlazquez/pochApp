@@ -6,12 +6,18 @@
           <nz-avatar nzText="{{ hand.playerId[0] }}"></nz-avatar>
           <span style="flex:1; margin-left:12px">{{ hand.playerId }}</span>
 
-          <nz-input-number [(ngModel)]="hand.predicted" [nzMin]="0" [nzMax]="maxTricks()" [nzControls]="true"/>
+          <button nz-button nzType="link" [disabled]="hand.predicted <= 0"  (click)="decrementPredictedHand(hand)"><nz-icon nzType="minus-circle" /></button>
+          <nz-input-number [(ngModel)]="hand.predicted" [nzMin]="0" [nzMax]="maxTricks()" [nzControls]="false"/>
+          <button nz-button nzType="link" [disabled]="hand.predicted >= maxTricks()" (click)="incrementPredictedHand(hand)"><nz-icon nzType="plus-circle" /></button>
         </nz-list-item>
       }
     </nz-list>
 
-    <button nz-button nzBlock (click)="back.emit()">Back</button>
-    <button nz-button nzType="primary" nzBlock (click)="next.emit()">Next</button>
+    <button nz-button nzBlock (click)="back.emit()">
+      <nz-icon nzType="arrow-left" /> Back
+    </button>
+    <button nz-button nzType="primary" nzBlock (click)="next.emit()">
+      Next <nz-icon nzType="arrow-right" />
+    </button>
   </nz-space>
 </nz-card>

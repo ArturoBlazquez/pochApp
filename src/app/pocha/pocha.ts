@@ -60,7 +60,7 @@ export class Pocha {
 
   nextHand() {
     if (this.currentHandIndex === this.hands().length - 1) {
-      this.hands.update(hand => [...hand, this.createHand()]);
+      this.hands.update(hands => [...hands, this.createHand()]);
     }
     this.currentHandIndex = this.currentHandIndex + 1;
     this.stage.set('predictions');
