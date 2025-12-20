@@ -11,17 +11,39 @@
       <nz-divider></nz-divider>
     }
 
-    <nz-table nzBordered [nzData]="gameStore.hands()" [nzShowPagination]="false">
+    <nz-table nzBordered [nzData]="gameStore.hands()" [nzShowPagination]="false" nzSize="small"
+              [nzScroll]="{ x: (120 + 100 * (gameStore.currentHandIndex() + 1)) + 'px' }">
+      <thead>
+        <tr style="display: none;">
+          <th nzWidth="60px"></th>
+          <th nzWidth="60px"></th>
+          @for (_ of [].constructor(gameStore.currentHandIndex() + 1); track $index) {
+            <th nzWidth="100px"></th>
+          }
+        </tr>
+      </thead>
       <tbody>
-        @for (player of gameStore.players(); track player) {
+        @for (player of gameStore.players(); let playerIndex = $index; track player) {
           <tr>
             <td>{{ player }}</td>
             <td>{{ scores()[$index] }}</td>
+            @for (_ of [].constructor(gameStore.currentHandIndex() + 1); let handIndex = $index; track handIndex) {
+              <td nzAlign="center" style="padding-bottom: 1px;">
+                <tr>
+                  {{ getBid(handIndex,playerIndex).actual }} / {{ getBid(handIndex,playerIndex).predicted }}
+                  <nz-tag [nzColor]="preview(getBid(handIndex,playerIndex)) >= 0 ? 'green' : 'red'">
+                    {{preview(getBid(handIndex,playerIndex)) >= 0 ? '+' : ''}}{{ preview(getBid(handIndex,playerIndex)) }}
+                  </nz-tag>
+                </tr>
+                <tr>
+                  {{ calculateScore(handIndex)[playerIndex] }}
+                </tr>
+              </td>
+            }
           </tr>
         }
       </tbody>
     </nz-table>
-<!--    TODO: display all hands-->
 
     <button nz-button nzBlock (click)="back.emit()">
       <nz-icon nzType="arrow-left" /> Back

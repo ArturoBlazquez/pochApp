@@ -15,7 +15,7 @@
           <button nz-button nzType="link" [disabled]="bid.actual >= gameStore.getCurrentNumTricks()" (click)="incrementActualBid(bid)"><nz-icon nzType="plus-circle" /></button>
 
           <nz-tag [nzColor]="preview(bid) >= 0 ? 'green' : 'red'">
-            {{ preview(bid) }}
+            {{preview(bid) >= 0 ? '+' : ''}}{{ preview(bid) }}
           </nz-tag>
         </nz-list-item>
       }
