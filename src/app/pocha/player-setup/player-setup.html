@@ -1,11 +1,11 @@
 <nz-space nzDirection="vertical" nzSize="middle" style="width:100%">
-  <nz-card nzTitle="Add players">
+  <nz-card nzTitle="{{ 'add.players' | translate }}">
     <nz-space nzDirection="vertical" style="width:100%">
       <nz-input-group>
         <nz-space nzDirection="vertical" style="width:100%">
-          <input nz-input placeholder="Player name" [(ngModel)]="playerName" (keydown.enter)="addPlayer()" />
+          <input nz-input placeholder="{{ 'player.name' | translate }}" [(ngModel)]="playerName" (keydown.enter)="addPlayer()" />
           <button nz-button nzType="primary" nzBlock (click)="addPlayer()">
-            <nz-icon nzType="plus" /> Add player
+            <nz-icon nzType="plus" /><span>{{ 'add.player' | translate }}</span>
           </button>
         </nz-space>
       </nz-input-group>
@@ -22,12 +22,12 @@
             </ul>
           </li>
         } @empty {
-          <nz-empty nzNotFoundImage="simple" [nzNotFoundContent]="'No players added'"></nz-empty>
+          <nz-empty nzNotFoundImage="simple" nzNotFoundContent="{{ 'no.players.added' | translate }}"></nz-empty>
         }
       </nz-list>
 
       <button nz-button nzType="primary" nzBlock [disabled]="gameStore.players().length < 2" (click)="next.emit()">
-        Next <nz-icon nzType="arrow-right" />
+        <span>{{ 'next' | translate }}</span><nz-icon nzType="arrow-right" />
       </button>
     </nz-space>
   </nz-card>

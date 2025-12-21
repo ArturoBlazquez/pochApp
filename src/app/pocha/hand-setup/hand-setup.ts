@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { GameStore } from '../game.store';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'hand-setup',
@@ -18,6 +19,7 @@ import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
     NzListModule,
     NzIconModule,
     FormsModule,
+    TranslatePipe,
   ],
   templateUrl: './hand-setup.html',
 })

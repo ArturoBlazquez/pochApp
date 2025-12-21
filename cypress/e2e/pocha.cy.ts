@@ -1,6 +1,7 @@
 describe('Pocha Scoring App', () => {
   beforeEach(() => {
     cy.visit('http://localhost:4200/');
+    cy.get('.ant-segmented-item').eq(1).click();
   });
 
   it('lets user add and remove players and start the game', () => {
@@ -33,17 +34,21 @@ describe('Pocha Scoring App', () => {
     cy.get('input[placeholder="Player name"]').type('Alice{enter}');
     cy.get('input[placeholder="Player name"]').type('Bob{enter}');
     cy.contains('Next').click();
+
+    cy.contains('Tricks per hand');
     cy.contains('Next').click();
 
     // Predictions
-    cy.get('input').eq(0).clear().type('1');
-    cy.get('input').eq(1).clear().type('1');
+    cy.contains('Predictions - Hand 1');
+    cy.contains('Alice deals 1 cards')
+    cy.get('input.ant-input-number-input').eq(0).clear().type('1');
+    cy.get('input.ant-input-number-input').eq(1).clear().type('1');
     cy.contains('Next').click();
 
     // Results
     cy.contains('Results - Hand 1');
-    cy.get('input').eq(0).clear().type('1');
-    cy.get('input').eq(1).clear().type('0');
+    cy.get('input.ant-input-number-input').eq(0).clear().type('1');
+    cy.get('input.ant-input-number-input').eq(1).clear().type('0');
     cy.contains('Next').click();
 
     // Scoreboard
@@ -60,12 +65,12 @@ describe('Pocha Scoring App', () => {
     cy.contains('Next').click();
 
     // Hand 1 predictions, results and scores
-    cy.get('input').eq(0).clear().type('0');
-    cy.get('input').eq(1).clear().type('1');
+    cy.get('input.ant-input-number-input').eq(0).clear().type('0');
+    cy.get('input.ant-input-number-input').eq(1).clear().type('1');
     cy.contains('Next').click();
 
-    cy.get('input').eq(0).clear().type('0');
-    cy.get('input').eq(1).clear().type('1');
+    cy.get('input.ant-input-number-input').eq(0).clear().type('0');
+    cy.get('input.ant-input-number-input').eq(1).clear().type('1');
     cy.contains('Next').click();
 
     cy.get('td').contains('Alice').parent().should('contain', '10');
@@ -73,12 +78,12 @@ describe('Pocha Scoring App', () => {
     cy.contains('Next').click();
 
     // Hand 2 predictions, results and scores
-    cy.get('input').eq(0).clear().type('1');
-    cy.get('input').eq(1).clear().type('2');
+    cy.get('input.ant-input-number-input').eq(0).clear().type('1');
+    cy.get('input.ant-input-number-input').eq(1).clear().type('2');
     cy.contains('Next').click();
 
-    cy.get('input').eq(0).clear().type('1');
-    cy.get('input').eq(1).clear().type('1');
+    cy.get('input.ant-input-number-input').eq(0).clear().type('1');
+    cy.get('input.ant-input-number-input').eq(1).clear().type('1');
     cy.contains('Next').click();
 
     cy.get('td').contains('Alice').parent().should('contain', '25');
@@ -91,8 +96,8 @@ describe('Pocha Scoring App', () => {
     cy.contains('Back').click();
 
     // Change tricks
-    cy.get('input').eq(0).clear().type('1');
-    cy.get('input').eq(1).clear().type('0');
+    cy.get('input.ant-input-number-input').eq(0).clear().type('1');
+    cy.get('input.ant-input-number-input').eq(1).clear().type('0');
     cy.contains('Next').click();
 
     cy.get('td').contains('Alice').parent().should('contain', '-5');
@@ -147,9 +152,35 @@ describe('Pocha Scoring App', () => {
     cy.get('li[nz-list-item]').eq(19).find('button').click();
     cy.get('li[nz-list-item]').should('have.length', 39);
 
-    cy.get('input').type('50{enter}');
+    cy.get('input.ant-input-number-input').type('50{enter}');
 
     cy.get('li[nz-list-item]').should('have.length', 40);
     cy.get('li[nz-list-item]').eq(39).contains(50);
+  });
+
+  it('lets change the language', () => {
+    cy.get('.ant-segmented-item').eq(0).click();
+
+    // Add players
+    cy.get('input[placeholder="Nombre del jugador"]').type('Alice{enter}');
+    cy.get('input[placeholder="Nombre del jugador"]').type('Bob{enter}');
+    cy.contains('Siguiente').click();
+
+    //Add tricks per hand
+    cy.contains('Bazas por mano');
+    cy.contains('Siguiente').click();
+
+    // Predictions
+    cy.contains('Apuestas - Mano 1');
+    cy.contains('Alice reparte 1 carta')
+    cy.contains('Siguiente').click();
+
+    // Results
+    cy.contains('Resultados - Mano 1');
+    cy.get('input.ant-input-number-input').eq(0).clear().type('1');
+    cy.contains('Siguiente').click();
+
+    // Scoreboard
+    cy.contains('Resultados - Mano 1');
   });
 });

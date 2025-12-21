@@ -9,6 +9,7 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { Bid } from '../pochaCalculator';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { GameStore } from '../game.store';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'predictions-step',
@@ -21,6 +22,7 @@ import { GameStore } from '../game.store';
     NzSpaceModule,
     NzIconModule,
     FormsModule,
+    TranslatePipe,
   ],
   templateUrl: './predictions.html',
 })

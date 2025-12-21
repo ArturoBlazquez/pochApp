@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { GameStore } from '../game.store';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'player-setup',
@@ -22,6 +23,7 @@ import { GameStore } from '../game.store';
     NzEmptyModule,
     NzIconModule,
     FormsModule,
+    TranslatePipe
   ],
   templateUrl: './player-setup.html',
 })

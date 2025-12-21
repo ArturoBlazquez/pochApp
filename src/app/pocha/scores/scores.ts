@@ -10,6 +10,7 @@ import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzTagModule } from 'ng-zorro-antd/tag';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'scores-step',
@@ -23,6 +24,7 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
     NzFlexModule,
     NzDividerModule,
     NzTagModule,
+    TranslatePipe,
   ],
   templateUrl: './scores.html',
 })

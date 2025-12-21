@@ -1,0 +1,26 @@
+{
+  "back": "Back",
+  "next": "Next",
+
+  "setup.players": "Setup players",
+  "setup.hands": "Setup hands",
+  "play": "Play",
+
+  "add.players": "Add players",
+  "add.player": "Add player",
+  "player.name": "Player name",
+  "no.players.added": "No players added",
+
+  "add.trick": "Add trick",
+  "tricks.per.hand": "Tricks per hand",
+  "delete.all.tricks": "Delete all tricks",
+
+  "predictions.hand": "Predictions - Hand {{ handNumber }}",
+  "hands.dealer": "{{ dealer }} deals {{ numTricks }} cards",
+  "total.predicted.tricks":  "Total predicted tricks",
+
+  "results.hand": "Results - Hand {{ handNumber }}",
+  "total.tricks":  "Total tricks",
+
+  "scores.hand": "Scores - Hand {{ handNumber }}"
+}

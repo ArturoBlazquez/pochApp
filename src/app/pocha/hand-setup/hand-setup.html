@@ -1,11 +1,11 @@
 <nz-space nzDirection="vertical" nzSize="middle" style="width:100%">
-  <nz-card nzTitle="Tricks per hand">
+  <nz-card nzTitle="{{ 'tricks.per.hand' | translate }}">
     <nz-space nzDirection="vertical" style="width:100%">
       <nz-input-group>
         <nz-space nzDirection="vertical" style="width:100%">
           <nz-input-number [(ngModel)]="hand" [nzMin]="0" [nzControls]="false" (keydown.enter)="addTrickPerHand()"/>
           <button nz-button nzType="primary" nzBlock (click)="addTrickPerHand()">
-            <nz-icon nzType="plus" /> Add hand
+            <nz-icon nzType="plus" /> {{ 'add.trick' | translate }}
           </button>
         </nz-space>
       </nz-input-group>
@@ -24,14 +24,14 @@
       </nz-list>
 
       <button nz-button nzDanger nzBlock (click)="removeAllTricksPerHand()">
-        Delete all tricks<nz-icon nzType="delete" />
+        {{ 'delete.all.tricks' | translate }}<nz-icon nzType="delete" />
       </button>
 
       <button nz-button nzBlock (click)="back.emit()">
-        <nz-icon nzType="arrow-left" /> Back
+        <nz-icon nzType="arrow-left" /> {{ 'back' | translate }}
       </button>
       <button nz-button nzType="primary" nzBlock (click)="startGame()">
-        Next <nz-icon nzType="arrow-right" />
+        {{ 'next' | translate }} <nz-icon nzType="arrow-right" />
       </button>
     </nz-space>
   </nz-card>

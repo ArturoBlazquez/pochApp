@@ -11,6 +11,7 @@ import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
 import { GameStore } from '../game.store';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'results-step',
@@ -25,6 +26,7 @@ import { GameStore } from '../game.store';
     NzIconModule,
     NzTypographyModule,
     FormsModule,
+    TranslatePipe,
   ],
   templateUrl: './results.html',
   styleUrl: 'results.css',

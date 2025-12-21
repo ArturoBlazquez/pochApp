@@ -1,4 +1,4 @@
-<nz-card [nzTitle]="'Scores - Hand ' + gameStore.getCurrentHandNumber()">
+<nz-card nzTitle="{{ 'scores.hand' | translate: { handNumber: gameStore.getCurrentHandNumber() } }}">
   <nz-space nzDirection="vertical" style="width:100%">
     @if (gameHasFinished()) {
       <div nz-flex nzJustify="space-around" nzAlign="center">
@@ -46,10 +46,12 @@
     </nz-table>
 
     <button nz-button nzBlock (click)="back.emit()">
-      <nz-icon nzType="arrow-left" /> Back
+      <nz-icon nzType="arrow-left" /> {{ 'back' | translate }}
     </button>
-    <button nz-button nzType="primary" nzBlock [disabled]="gameHasFinished()" (click)="next.emit()">
-      Next <nz-icon nzType="arrow-right" />
-    </button>
+    @if (!gameHasFinished()) {
+      <button nz-button nzType="primary" nzBlock (click)="next.emit()">
+        {{ 'next' | translate }} <nz-icon nzType="arrow-right" />
+      </button>
+    }
   </nz-space>
 </nz-card>

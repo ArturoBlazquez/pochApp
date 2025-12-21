@@ -1,18 +1,16 @@
-<nz-page-header nzTitle="Pocha Score Tracker"></nz-page-header>
+<nz-page-header nzTitle="PochApp">
+  <nz-page-header-extra>
+    <nz-segmented [nzOptions]="languageOptions" nzShape="round" (nzValueChange)="changeLanguage($event.toString())" />
+  </nz-page-header-extra>
+</nz-page-header>
 
-<nz-steps
-  [nzCurrent]="
-    stage() === 'players-setup' ? 0 :
-    stage() === 'hand-setup' ? 1 : 2
-  "
-  nzSize="small"
->
-  <nz-step nzTitle="Setup Players"></nz-step>
-  <nz-step nzTitle="Setup Hands"></nz-step>
-  <nz-step nzTitle="Play"></nz-step>
-</nz-steps>
-
-<nz-divider></nz-divider>
+@if (stage() === 'players-setup' || stage() === 'hand-setup'){
+  <nz-steps [nzCurrent]="stage() === 'players-setup' ? 0 : 1">
+    <nz-step nzTitle="{{ 'setup.players' | translate }}"></nz-step>
+    <nz-step nzTitle="{{ 'setup.hands' | translate }}"></nz-step>
+    <nz-step nzTitle="{{ 'play' | translate }}"></nz-step>
+  </nz-steps>
+}
 
 @if (stage() === 'players-setup') {
   <player-setup

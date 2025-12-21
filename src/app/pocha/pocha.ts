@@ -1,17 +1,14 @@
 import { Component, signal, WritableSignal } from '@angular/core';
-import { Bid } from './pochaCalculator';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzStepsModule } from 'ng-zorro-antd/steps';
-import { NzCardModule } from 'ng-zorro-antd/card';
-import { NzListModule } from 'ng-zorro-antd/list';
-import { NzDividerModule } from 'ng-zorro-antd/divider';
-import { NzButtonModule } from 'ng-zorro-antd/button';
 import { PlayerSetup } from './player-setup/player-setup';
 import { PredictionsStep } from './predictions/predictions';
 import { ResultsStep } from './results/results';
 import { ScoresStep } from './scores/scores';
 import { GameStore } from './game.store';
 import { HandSetup } from './hand-setup/hand-setup';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { NzSegmentedModule } from 'ng-zorro-antd/segmented';
 
 type Stage = 'players-setup' | 'hand-setup' | 'predictions' | 'results' | 'scoreboard';
 
@@ -19,24 +16,37 @@ type Stage = 'players-setup' | 'hand-setup' | 'predictions' | 'results' | 'score
   selector: 'app-pocha',
   imports: [
     PlayerSetup,
+    HandSetup,
     PredictionsStep,
     ResultsStep,
     ScoresStep,
-    NzCardModule,
-    NzListModule,
-    NzButtonModule,
     NzStepsModule,
     NzPageHeaderModule,
-    NzDividerModule,
-    HandSetup,
+    NzSegmentedModule,
+    TranslatePipe,
   ],
   templateUrl: './pocha.html',
 })
 export class Pocha {
-  constructor(private gameStore: GameStore) {
+  constructor(
+    private gameStore: GameStore,
+    private translate: TranslateService,
+  ) {
+    this.translate.addLangs(['es', 'en']);
+    this.translate.setFallbackLang('es');
+    this.translate.use('es');
   }
 
   stage: WritableSignal<Stage> = signal('players-setup');
+
+  languageOptions = [
+    { value: 'es', label: '🇪🇸' },
+    { value: 'en', label: '🇬🇧' },
+  ];
+
+  changeLanguage(language: string): void {
+    this.translate.use(language);
+  }
 
   next() {
     if (this.stage() === 'players-setup') {
