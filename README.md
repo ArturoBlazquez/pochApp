@@ -21,6 +21,10 @@ Run `npm run test` to:
 
 1. execute e2e tests via [Cypress](https://www.cypress.io/).
 
+## Deploy application
+
+Run `npm run deploy` to build the project and deploy it to github pages
+
 ## Other
 
 We use [ng-zorro](https://ng.ant.design/components/overview/en) as component library.
