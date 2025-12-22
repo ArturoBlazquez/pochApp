@@ -22,5 +22,9 @@
   "results.hand": "Resultados - Mano {{ handNumber }}",
   "total.tricks":  "Bazas totales",
 
-  "scores.hand": "Resultados - Mano {{ handNumber }}"
+  "scores.hand": "Resultados - Mano {{ handNumber }}",
+  "new.game": "Empezar una partida nueva",
+  "continue.game": "Continuar la partida",
+  "started.game":  "Tienes una partida ya empezada",
+  "what.to.do": "¿Qué quieres hacer?"
 }

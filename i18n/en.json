@@ -22,5 +22,9 @@
   "results.hand": "Results - Hand {{ handNumber }}",
   "total.tricks":  "Total tricks",
 
-  "scores.hand": "Scores - Hand {{ handNumber }}"
+  "scores.hand": "Scores - Hand {{ handNumber }}",
+  "new.game": "Start a new game",
+  "continue.game": "Continue current game",
+  "started.game":  "You have a saved game",
+  "what.to.do": "What do you want to do?"
 }
