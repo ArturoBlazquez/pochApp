@@ -1,6 +1,9 @@
 <nz-page-header nzTitle="PochApp">
   <nz-page-header-extra>
-    <nz-segmented [nzOptions]="languageOptions" nzShape="round" (nzValueChange)="changeLanguage($event.toString())" />
+    <nz-space>
+      <nz-segmented [nzOptions]="languageOptions" nzShape="round" [ngModel]="selectedLanguage()" (click)="switchLanguage()" />
+      <nz-segmented [nzOptions]="themeOptions" nzShape="round" [ngModel]="selectedTheme()" (click)="switchTheme()" />
+    </nz-space>
   </nz-page-header-extra>
 </nz-page-header>
 

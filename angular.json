@@ -32,9 +32,21 @@
               }
             ],
             "styles": [
-              "./node_modules/ng-zorro-antd/ng-zorro-antd.min.css",
-              "src/styles.css"
-            ]
+              "src/styles.css",
+              {
+                "input": "src/styles/default.less",
+                "bundleName": "default",
+                "inject": false
+              },
+              {
+                "input": "src/styles/dark.less",
+                "bundleName": "dark",
+                "inject": false
+              }
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": ["src/styles/themes"]
+            }
           },
           "configurations": {
             "production": {

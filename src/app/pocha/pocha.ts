@@ -9,6 +9,9 @@ import { GameStore } from './game.store';
 import { HandSetup } from './hand-setup/hand-setup';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { NzSegmentedModule } from 'ng-zorro-antd/segmented';
+import { ThemeService } from '../theme.service';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { FormsModule } from '@angular/forms';
 
 type Stage = 'players-setup' | 'hand-setup' | 'predictions' | 'results' | 'scoreboard';
 
@@ -23,7 +26,9 @@ type Stage = 'players-setup' | 'hand-setup' | 'predictions' | 'results' | 'score
     NzStepsModule,
     NzPageHeaderModule,
     NzSegmentedModule,
+    NzSpaceModule,
     TranslatePipe,
+    FormsModule,
   ],
   templateUrl: './pocha.html',
 })
@@ -31,21 +36,37 @@ export class Pocha {
   constructor(
     private gameStore: GameStore,
     private translate: TranslateService,
+    private themeService: ThemeService,
   ) {
     this.translate.addLangs(['es', 'en']);
     this.translate.setFallbackLang('es');
     this.translate.use('es');
+    this.themeService.loadTheme(true).then();
   }
 
   stage: WritableSignal<Stage> = signal('players-setup');
+
+  selectedLanguage = signal('es');
+  selectedTheme = signal('default');
 
   languageOptions = [
     { value: 'es', label: '🇪🇸' },
     { value: 'en', label: '🇬🇧' },
   ];
 
-  changeLanguage(language: string): void {
-    this.translate.use(language);
+  themeOptions = [
+    { value: 'default', label: '☀️' },
+    { value: 'dark', label: '🌑' },
+  ];
+
+  switchLanguage(): void {
+    this.selectedLanguage.update(language => language == 'es' ? 'en' : 'es');
+    this.translate.use(this.selectedLanguage());
+  }
+
+  switchTheme(): void {
+    this.selectedTheme.update(theme => theme == 'default' ? 'dark' : 'default');
+    this.themeService.changeTheme(this.selectedTheme()).then();
   }
 
   next() {
