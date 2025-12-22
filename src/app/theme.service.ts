@@ -9,13 +9,10 @@ enum ThemeType {
   providedIn: 'root',
 })
 export class ThemeService {
-  currentTheme = 'default';
-
   constructor() {
   }
 
-  public loadTheme(firstLoad = true): Promise<Event> {
-    const theme = this.currentTheme;
+  public useTheme(theme: string, firstLoad = true): Promise<Event> {
     if (firstLoad) {
       document.documentElement.classList.add(theme);
     }
@@ -31,11 +28,6 @@ export class ThemeService {
         (e) => reject(e),
       );
     });
-  }
-
-  public changeTheme(theme: string): Promise<Event> {
-    this.currentTheme = theme;
-    return this.loadTheme(false);
   }
 
   private reverseTheme(theme: string): ThemeType {

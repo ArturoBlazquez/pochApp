@@ -5,12 +5,12 @@
         <nz-space nzDirection="vertical" style="width:100%">
           <nz-input-number [(ngModel)]="hand" [nzMin]="0" [nzControls]="false" (keydown.enter)="addTrickPerHand()"/>
           <button nz-button nzType="primary" nzBlock (click)="addTrickPerHand()">
-            <nz-icon nzType="plus" /> {{ 'add.trick' | translate }}
+            <nz-icon nzType="plus" /><span>{{ 'add.trick' | translate }}</span>
           </button>
         </nz-space>
       </nz-input-group>
 
-      <nz-table nzSize="small" nzOuterBordered="true" [nzData]="tricksPerHand()" [nzFrontPagination]="false" [nzShowPagination]="false">
+      <nz-table nzSize="small" nzOuterBordered="true" [nzData]="gameStore.tricksPerHand()" [nzFrontPagination]="false" [nzShowPagination]="false">
         <thead>
           <tr style="display: none;">
             <th nzWidth="40px"></th>
@@ -18,8 +18,8 @@
             <th></th>
           </tr>
         </thead>
-        <tbody cdkDropList (cdkDropListDropped)="drop($event)">
-          @for (trick of tricksPerHand(); track $index) {
+        <tbody cdkDropList (cdkDropListDropped)="moveHands($event)">
+          @for (trick of gameStore.tricksPerHand(); track $index) {
             <tr cdkDrag cdkDragLockAxis="y">
               <td nzAlign="left" cdkDragHandle><nz-icon nzType="drag" /></td>
               <td>{{ trick }}</td>
@@ -30,14 +30,14 @@
       </nz-table>
 
       <button nz-button nzDanger nzBlock (click)="removeAllTricksPerHand()">
-        {{ 'delete.all.tricks' | translate }}<nz-icon nzType="delete" />
+        <span>{{ 'delete.all.tricks' | translate }}</span><nz-icon nzType="delete" />
       </button>
 
-      <button nz-button nzBlock (click)="back.emit()">
-        <nz-icon nzType="arrow-left" /> {{ 'back' | translate }}
+      <button nz-button nzBlock (click)="goBack()">
+        <nz-icon nzType="arrow-left" /><span>{{ 'back' | translate }}</span>
       </button>
       <button nz-button nzType="primary" nzBlock (click)="startGame()">
-        {{ 'next' | translate }} <nz-icon nzType="arrow-right" />
+        <span>{{ 'next' | translate }}</span><nz-icon nzType="arrow-right" />
       </button>
     </nz-space>
   </nz-card>

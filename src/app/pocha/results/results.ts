@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, output } from '@angular/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzListModule } from 'ng-zorro-antd/list';
@@ -42,12 +42,31 @@ export class ResultsStep {
     return calculateBidScore(bid);
   };
 
-  incrementActualBid(bid: Bid) {
-    bid.actual += 1;
+  incrementActualBid(bidIndex: number) {
+    this.gameStore.hands.update(hands => {
+        const updatedHands = [...hands];
+        updatedHands[this.gameStore.currentHandIndex()].bids[bidIndex].actual += 1
+        return updatedHands
+      },
+    )
   }
 
-  decrementActualBid(bid: Bid) {
-    bid.actual -= 1;
+  decrementActualBid(bidIndex: number) {
+    this.gameStore.hands.update(hands => {
+        const updatedHands = [...hands];
+        updatedHands[this.gameStore.currentHandIndex()].bids[bidIndex].actual -= 1
+        return updatedHands
+      },
+    )
+  }
+
+  updateActualBid(bidIndex: number, actual: number) {
+    this.gameStore.hands.update(hands => {
+        const updatedHands = [...hands];
+        updatedHands[this.gameStore.currentHandIndex()].bids[bidIndex].actual = actual
+        return updatedHands
+      },
+    )
   }
 
   getTotalActualTricks() {

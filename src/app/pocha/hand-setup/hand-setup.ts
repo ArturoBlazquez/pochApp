@@ -1,4 +1,4 @@
-import { Component, effect, output, signal } from '@angular/core';
+import { Component, output } from '@angular/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
@@ -23,56 +23,63 @@ import { CdkDrag, CdkDragDrop, CdkDragHandle, CdkDropList, moveItemInArray } fro
     TranslatePipe,
     CdkDropList,
     CdkDrag,
-    CdkDragHandle
+    CdkDragHandle,
   ],
   templateUrl: './hand-setup.html',
 })
 export class HandSetup {
   constructor(protected gameStore: GameStore) {
-    effect(() => {
+    if (this.gameStore.tricksPerHand().length == 0) {
       const maxTricks = Math.floor(40 / this.gameStore.players().length)
       for (let i = 1; i < maxTricks; i++) {
-        this.tricksPerHand.update(hands => [...hands, i])
+        this.gameStore.tricksPerHand.update(hands => [...hands, i])
       }
 
       for (let i = 0; i < this.gameStore.players().length - 1; i++) {
-        this.tricksPerHand.update(hands => [...hands, maxTricks])
+        this.gameStore.tricksPerHand.update(hands => [...hands, maxTricks])
       }
 
       for (let i = maxTricks; i > 0; i--) {
-        this.tricksPerHand.update(hands => [...hands, i])
+        this.gameStore.tricksPerHand.update(hands => [...hands, i])
       }
-    });
+    }
   }
 
   next = output<void>();
   back = output<void>();
 
-  tricksPerHand = signal<number[]>([]);
-
   hand?: number;
 
   addTrickPerHand() {
     if (this.hand !== undefined) {
-      this.tricksPerHand.update(hands => [...hands, this.hand!]);
+      this.gameStore.tricksPerHand.update(hands => [...hands, this.hand!]);
       this.hand = undefined;
     }
   }
 
   removeTrickPerHand(index: number) {
-    this.tricksPerHand.update(hands => hands.filter((_, i) => i !== index));
+    this.gameStore.tricksPerHand.update(hands => hands.filter((_, i) => i !== index));
   }
 
-  drop(event: CdkDragDrop<string[]>): void {
-    moveItemInArray(this.tricksPerHand(), event.previousIndex, event.currentIndex);
+  moveHands(event: CdkDragDrop<string[]>): void {
+    this.gameStore.tricksPerHand.update(tricksPerHand => {
+      const updatedTricksPerHand = [...tricksPerHand];
+      moveItemInArray(updatedTricksPerHand, event.previousIndex, event.currentIndex);
+      return updatedTricksPerHand
+    });
   }
 
   removeAllTricksPerHand() {
-    this.tricksPerHand.set([])
+    this.gameStore.tricksPerHand.set([])
+  }
+
+  goBack() {
+    this.gameStore.tricksPerHand.set([]);
+    this.back.emit()
   }
 
   startGame() {
-    this.gameStore.hands.set(this.tricksPerHand().map((tricks) => this.createHand(tricks)));
+    this.gameStore.hands.set(this.gameStore.tricksPerHand().map((tricks) => this.createHand(tricks)));
     this.next.emit()
   }
 

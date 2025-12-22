@@ -12,8 +12,7 @@ import { NzSegmentedModule } from 'ng-zorro-antd/segmented';
 import { ThemeService } from '../theme.service';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { FormsModule } from '@angular/forms';
-
-type Stage = 'players-setup' | 'hand-setup' | 'predictions' | 'results' | 'scoreboard';
+import { NzModalModule } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'app-pocha',
@@ -27,6 +26,7 @@ type Stage = 'players-setup' | 'hand-setup' | 'predictions' | 'results' | 'score
     NzPageHeaderModule,
     NzSegmentedModule,
     NzSpaceModule,
+    NzModalModule,
     TranslatePipe,
     FormsModule,
   ],
@@ -34,20 +34,19 @@ type Stage = 'players-setup' | 'hand-setup' | 'predictions' | 'results' | 'score
 })
 export class Pocha {
   constructor(
-    private gameStore: GameStore,
+    protected gameStore: GameStore,
     private translate: TranslateService,
     private themeService: ThemeService,
   ) {
     this.translate.addLangs(['es', 'en']);
     this.translate.setFallbackLang('es');
-    this.translate.use('es');
-    this.themeService.loadTheme(true).then();
+    this.translate.use(this.gameStore.language());
+    this.themeService.useTheme(this.gameStore.theme(), true).then();
+
+    if (this.gameStore.hasSavedGameState()) {
+      this.showModal = true
+    }
   }
-
-  stage: WritableSignal<Stage> = signal('players-setup');
-
-  selectedLanguage = signal('es');
-  selectedTheme = signal('default');
 
   languageOptions = [
     { value: 'es', label: '🇪🇸' },
@@ -59,45 +58,56 @@ export class Pocha {
     { value: 'dark', label: '🌑' },
   ];
 
+  showModal = false;
+
   switchLanguage(): void {
-    this.selectedLanguage.update(language => language == 'es' ? 'en' : 'es');
-    this.translate.use(this.selectedLanguage());
+    this.gameStore.language.update(language => language == 'es' ? 'en' : 'es');
+    this.translate.use(this.gameStore.language());
   }
 
   switchTheme(): void {
-    this.selectedTheme.update(theme => theme == 'default' ? 'dark' : 'default');
-    this.themeService.changeTheme(this.selectedTheme()).then();
+    this.gameStore.theme.update(theme => theme == 'default' ? 'dark' : 'default');
+    this.themeService.useTheme(this.gameStore.theme()).then();
+  }
+
+  continueGame() {
+    this.showModal = false;
+  }
+
+  startNewGame(): void {
+    this.gameStore.resetGameState();
+    this.showModal = false;
   }
 
   next() {
-    if (this.stage() === 'players-setup') {
-      this.stage.set('hand-setup');
-    } else if (this.stage() === 'hand-setup') {
-      this.stage.set('predictions');
-    } else if (this.stage() === 'predictions') {
-      this.stage.set('results');
-    } else if (this.stage() === 'results') {
-      this.stage.set('scoreboard');
-    } else if (this.stage() === 'scoreboard') {
+    if (this.gameStore.stage() === 'players-setup') {
+      this.gameStore.stage.set('hand-setup');
+    } else if (this.gameStore.stage() === 'hand-setup') {
+      this.gameStore.stage.set('predictions');
+    } else if (this.gameStore.stage() === 'predictions') {
+      this.gameStore.stage.set('results');
+    } else if (this.gameStore.stage() === 'results') {
+      this.gameStore.stage.set('scoreboard');
+    } else if (this.gameStore.stage() === 'scoreboard') {
       this.gameStore.currentHandIndex.update(currentHand => currentHand + 1);
-      this.stage.set('predictions');
+      this.gameStore.stage.set('predictions');
     }
   }
 
   back() {
-    if (this.stage() === 'results') {
-      this.stage.set('predictions');
-    } else if (this.stage() === 'scoreboard') {
-      this.stage.set('results');
-    } else if (this.stage() === 'predictions') {
+    if (this.gameStore.stage() === 'results') {
+      this.gameStore.stage.set('predictions');
+    } else if (this.gameStore.stage() === 'scoreboard') {
+      this.gameStore.stage.set('results');
+    } else if (this.gameStore.stage() === 'predictions') {
       if (this.gameStore.currentHandIndex() === 0) {
-        this.stage.set('hand-setup');
+        this.gameStore.stage.set('hand-setup');
       } else {
         this.gameStore.currentHandIndex.update(currentHand => currentHand - 1);
-        this.stage.set('scoreboard');
+        this.gameStore.stage.set('scoreboard');
       }
-    } else if (this.stage() === 'hand-setup') {
-      this.stage.set('players-setup');
+    } else if (this.gameStore.stage() === 'hand-setup') {
+      this.gameStore.stage.set('players-setup');
     }
   }
 }

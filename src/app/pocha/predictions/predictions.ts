@@ -33,12 +33,31 @@ export class PredictionsStep {
   next = output<void>();
   back = output<void>();
 
-  incrementPredictedBid(bid: Bid) {
-    bid.predicted += 1;
+  incrementPredictedBid(bidIndex: number) {
+    this.gameStore.hands.update(hands => {
+        const updatedHands = [...hands];
+        updatedHands[this.gameStore.currentHandIndex()].bids[bidIndex].predicted += 1
+        return updatedHands
+      },
+    )
   }
 
-  decrementPredictedBid(bid: Bid) {
-    bid.predicted -= 1;
+  decrementPredictedBid(bidIndex: number) {
+    this.gameStore.hands.update(hands => {
+        const updatedHands = [...hands];
+        updatedHands[this.gameStore.currentHandIndex()].bids[bidIndex].predicted -= 1
+        return updatedHands
+      },
+    )
+  }
+
+  updatePredictedBid(bidIndex: number, predicted: number) {
+    this.gameStore.hands.update(hands => {
+        const updatedHands = [...hands];
+        updatedHands[this.gameStore.currentHandIndex()].bids[bidIndex].predicted = predicted
+        return updatedHands
+      },
+    )
   }
 
   getTotalPredictedTricks() {

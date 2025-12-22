@@ -53,8 +53,12 @@ export class PlayerSetup {
     this.gameStore.players.update(players => players.filter(player => player !== playerToRemove));
   }
 
-  drop(event: CdkDragDrop<string[]>): void {
-    moveItemInArray(this.gameStore.players(), event.previousIndex, event.currentIndex);
+  movePlayers(event: CdkDragDrop<string[]>): void {
+    this.gameStore.players.update(players => {
+      const updatedPlayers = [...players];
+      moveItemInArray(updatedPlayers, event.previousIndex, event.currentIndex);
+      return updatedPlayers
+    });
   }
 
   getPlayerInitials(player: string) {

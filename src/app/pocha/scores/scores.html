@@ -46,11 +46,16 @@
     </nz-table>
 
     <button nz-button nzBlock (click)="back.emit()">
-      <nz-icon nzType="arrow-left" /> {{ 'back' | translate }}
+      <nz-icon nzType="arrow-left" /><span>{{ 'back' | translate }}</span>
     </button>
     @if (!gameHasFinished()) {
       <button nz-button nzType="primary" nzBlock (click)="next.emit()">
-        {{ 'next' | translate }} <nz-icon nzType="arrow-right" />
+        <span>{{ 'next' | translate }}</span><nz-icon nzType="arrow-right" />
+      </button>
+    }
+    @if (gameHasFinished()) {
+      <button nz-button nzType="primary" nzBlock nzDanger (click)="gameStore.resetGameState()">
+        <span>{{ 'new.game' | translate }}</span><nz-icon nzType="reload" />
       </button>
     }
   </nz-space>

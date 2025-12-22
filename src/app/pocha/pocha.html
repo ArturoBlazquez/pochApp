@@ -1,50 +1,64 @@
 <nz-page-header nzTitle="PochApp">
   <nz-page-header-extra>
     <nz-space>
-      <nz-segmented [nzOptions]="languageOptions" nzShape="round" [ngModel]="selectedLanguage()" (click)="switchLanguage()" />
-      <nz-segmented [nzOptions]="themeOptions" nzShape="round" [ngModel]="selectedTheme()" (click)="switchTheme()" />
+      <nz-segmented [nzOptions]="languageOptions" nzShape="round" [ngModel]="gameStore.language()" (click)="switchLanguage()" />
+      <nz-segmented [nzOptions]="themeOptions" nzShape="round" [ngModel]="gameStore.theme()" (click)="switchTheme()" />
     </nz-space>
   </nz-page-header-extra>
 </nz-page-header>
 
-@if (stage() === 'players-setup' || stage() === 'hand-setup'){
-  <nz-steps [nzCurrent]="stage() === 'players-setup' ? 0 : 1">
+@if (gameStore.stage() === 'players-setup' || gameStore.stage() === 'hand-setup'){
+  <nz-steps [nzCurrent]="gameStore.stage() === 'players-setup' ? 0 : 1">
     <nz-step nzTitle="{{ 'setup.players' | translate }}"></nz-step>
     <nz-step nzTitle="{{ 'setup.hands' | translate }}"></nz-step>
     <nz-step nzTitle="{{ 'play' | translate }}"></nz-step>
   </nz-steps>
 }
 
-@if (stage() === 'players-setup') {
+@if (gameStore.stage() === 'players-setup') {
   <player-setup
     (next)="next()"
   />
 }
 
-@if (stage() === 'hand-setup') {
+@if (gameStore.stage() === 'hand-setup') {
   <hand-setup
     (next)="next()"
     (back)="back()"
   />
 }
 
-@if (stage() === 'predictions') {
+@if (gameStore.stage() === 'predictions') {
   <predictions-step
     (next)="next()"
     (back)="back()"
   />
 }
 
-@if (stage() === 'results') {
+@if (gameStore.stage() === 'results') {
   <results-step
     (next)="next()"
     (back)="back()"
   />
 }
 
-@if (stage() === 'scoreboard') {
+@if (gameStore.stage() === 'scoreboard') {
   <scores-step
     (next)="next()"
     (back)="back()"
   />
 }
+
+<nz-modal [(nzVisible)]="showModal"
+          nzTitle="{{'started.game' | translate }}"
+          nzOkText="{{'new.game' | translate }}"
+          nzOkType="primary"
+          nzOkDanger="true"
+          (nzOnOk)="startNewGame()"
+          nzCancelText="{{'continue.game' | translate }}"
+          (nzOnCancel)="continueGame()"
+          nzClosable="false">
+  <ng-container *nzModalContent>
+    {{'what.to.do' | translate }}
+  </ng-container>
+</nz-modal>

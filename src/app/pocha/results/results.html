@@ -8,11 +8,11 @@
           <nz-avatar nzText="{{ gameStore.players()[$index][0] }}"></nz-avatar>
           <span style="flex:1; margin-left:12px">{{ gameStore.players()[$index] }}</span>
 
-          <button nz-button nzType="link" [disabled]="bid.actual <= 0"  (click)="decrementActualBid(bid)"><nz-icon nzType="minus-circle" /></button>
-          <nz-input-number [(ngModel)]="bid.actual" [nzMin]="0" [nzMax]="gameStore.getCurrentNumTricks()" [nzControls]="false">
+          <button nz-button nzType="link" [disabled]="bid.actual <= 0" (click)="decrementActualBid($index)"><nz-icon nzType="minus-circle" /></button>
+          <nz-input-number [ngModel]="bid.actual" (ngModelChange)="updateActualBid($index, $event)" [nzMin]="0" [nzMax]="gameStore.getCurrentNumTricks()" [nzControls]="false">
             <span nzInputSuffix nz-typography nzType="secondary">/ {{ bid.predicted }}</span>
           </nz-input-number>
-          <button nz-button nzType="link" [disabled]="bid.actual >= gameStore.getCurrentNumTricks()" (click)="incrementActualBid(bid)"><nz-icon nzType="plus-circle" /></button>
+          <button nz-button nzType="link" [disabled]="bid.actual >= gameStore.getCurrentNumTricks()" (click)="incrementActualBid($index)"><nz-icon nzType="plus-circle" /></button>
 
           <nz-tag [nzColor]="preview(bid) >= 0 ? 'green' : 'red'">
             {{preview(bid) >= 0 ? '+' : ''}}{{ preview(bid) }}
@@ -24,10 +24,10 @@
     <span>{{ 'total.predicted.tricks' | translate }}: {{getTotalActualTricks()}}</span>
 
     <button nz-button nzBlock (click)="back.emit()">
-      <nz-icon nzType="arrow-left"/> {{ 'back' | translate }}
+      <nz-icon nzType="arrow-left" /><span>{{ 'back' | translate }}</span>
     </button>
     <button nz-button nzType="primary" nzBlock [disabled]="getTotalActualTricks() !== gameStore.getCurrentNumTricks()" (click)="next.emit()">
-      {{ 'next' | translate }} <nz-icon nzType="arrow-right" />
+      <span>{{ 'next' | translate }}</span><nz-icon nzType="arrow-right" />
     </button>
   </nz-space>
 </nz-card>
