@@ -11,7 +11,7 @@
       <nz-divider></nz-divider>
     }
 
-    <nz-table nzBordered [nzData]="gameStore.hands()" [nzShowPagination]="false" nzSize="small"
+    <nz-table nzBordered [nzData]="gameStore.hands()" [nzFrontPagination]="false" [nzShowPagination]="false" nzSize="small"
               [nzScroll]="{ x: (120 + 100 * (gameStore.currentHandIndex() + 1)) + 'px' }">
       <thead>
         <tr style="display: none;">

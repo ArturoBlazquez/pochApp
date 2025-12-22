@@ -10,21 +10,38 @@
         </nz-space>
       </nz-input-group>
 
-      <nz-list nzBordered>
-        @for (player of gameStore.players(); track player) {
-          <li nz-list-item nzNoFlex>
-            <nz-avatar nzText="{{ player[0] }}"></nz-avatar>
-            <span style="margin-left:12px">{{ player }}</span>
-            <ul nz-list-item-actions>
-              <nz-list-item-action>
-                <button nz-button nzDanger nzType="link" (click)="removePlayer(player)"><nz-icon nzType="delete" /></button>
-              </nz-list-item-action>
-            </ul>
-          </li>
-        } @empty {
-          <nz-empty nzNotFoundImage="simple" nzNotFoundContent="{{ 'no.players.added' | translate }}"></nz-empty>
-        }
-      </nz-list>
+      @if (gameStore.players().length > 0) {
+        <nz-table nzSize="small" nzOuterBordered="true" [nzData]="gameStore.players()" [nzFrontPagination]="false" [nzShowPagination]="false">
+          <thead>
+            <tr style="display: none;">
+              <th nzWidth="40px"></th>
+              <th nzWidth="40px"></th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody cdkDropList (cdkDropListDropped)="drop($event)">
+            @for (player of gameStore.players(); track $index) {
+              <tr cdkDrag cdkDragLockAxis="y">
+                <td nzAlign="left" cdkDragHandle>
+                  <nz-icon nzType="drag"/>
+                </td>
+                <td>
+                  <nz-avatar nzText="{{ getPlayerInitials(player) }}"></nz-avatar>
+                </td>
+                <td><span style="margin-left:12px">{{ player }}</span></td>
+                <td nzAlign="right">
+                  <button nz-button nzDanger nzType="link" (click)="removePlayer(player)">
+                    <nz-icon nzType="delete"/>
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </nz-table>
+      } @else {
+        <nz-empty nzNotFoundImage="simple" nzNotFoundContent="{{ 'no.players.added' | translate }}"></nz-empty>
+      }
 
       <button nz-button nzType="primary" nzBlock [disabled]="gameStore.players().length < 2" (click)="next.emit()">
         <span>{{ 'next' | translate }}</span><nz-icon nzType="arrow-right" />

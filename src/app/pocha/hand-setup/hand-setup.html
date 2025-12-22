@@ -10,18 +10,24 @@
         </nz-space>
       </nz-input-group>
 
-      <nz-list nzBordered nzSize="small">
-        @for (trick of tricksPerHand(); track $index) {
-          <li nz-list-item nzNoFlex>
-            <span>{{ trick }}</span>
-            <ul nz-list-item-actions>
-              <nz-list-item-action>
-                <button nz-button nzDanger nzType="link" (click)="removeTrickPerHand($index)"><nz-icon nzType="delete" /></button>
-              </nz-list-item-action>
-            </ul>
-          </li>
-        }
-      </nz-list>
+      <nz-table nzSize="small" nzOuterBordered="true" [nzData]="tricksPerHand()" [nzFrontPagination]="false" [nzShowPagination]="false">
+        <thead>
+          <tr style="display: none;">
+            <th nzWidth="40px"></th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody cdkDropList (cdkDropListDropped)="drop($event)">
+          @for (trick of tricksPerHand(); track $index) {
+            <tr cdkDrag cdkDragLockAxis="y">
+              <td nzAlign="left" cdkDragHandle><nz-icon nzType="drag" /></td>
+              <td>{{ trick }}</td>
+              <td nzAlign="right"><button nz-button nzDanger nzType="link" (click)="removeTrickPerHand($index)"><nz-icon nzType="delete" /></button></td>
+            </tr>
+          }
+        </tbody>
+      </nz-table>
 
       <button nz-button nzDanger nzBlock (click)="removeAllTricksPerHand()">
         {{ 'delete.all.tricks' | translate }}<nz-icon nzType="delete" />

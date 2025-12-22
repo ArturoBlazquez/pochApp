@@ -1,13 +1,14 @@
 import { Component, effect, output, signal } from '@angular/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
-import { NzListModule } from 'ng-zorro-antd/list';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { FormsModule } from '@angular/forms';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { GameStore } from '../game.store';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { TranslatePipe } from '@ngx-translate/core';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { CdkDrag, CdkDragDrop, CdkDragHandle, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'hand-setup',
@@ -16,10 +17,13 @@ import { TranslatePipe } from '@ngx-translate/core';
     NzButtonModule,
     NzCardModule,
     NzInputNumberModule,
-    NzListModule,
+    NzTableModule,
     NzIconModule,
     FormsModule,
     TranslatePipe,
+    CdkDropList,
+    CdkDrag,
+    CdkDragHandle
   ],
   templateUrl: './hand-setup.html',
 })
@@ -57,6 +61,10 @@ export class HandSetup {
 
   removeTrickPerHand(index: number) {
     this.tricksPerHand.update(hands => hands.filter((_, i) => i !== index));
+  }
+
+  drop(event: CdkDragDrop<string[]>): void {
+    moveItemInArray(this.tricksPerHand(), event.previousIndex, event.currentIndex);
   }
 
   removeAllTricksPerHand() {
