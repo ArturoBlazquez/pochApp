@@ -1,0 +1,26 @@
+{
+  "back": "Atrás",
+  "next": "Siguiente",
+
+  "setup.players": "Definir jugadores",
+  "setup.hands": "Definir manos",
+  "play": "Jugar",
+
+  "add.players": "Añadir jugadores",
+  "add.player": "Añadir jugador",
+  "player.name": "Nombre del jugador",
+  "no.players.added": "No se han añadido jugadores",
+
+  "add.trick": "Añadir baza",
+  "tricks.per.hand": "Bazas por mano",
+  "delete.all.tricks": "Borrar todas las bazas",
+
+  "predictions.hand": "Apuestas - Mano {{ handNumber }}",
+  "hands.dealer": "{{ dealer }} reparte {{ numTricks }} cartas",
+  "total.predicted.tricks":  "Total de bazas pedidas",
+
+  "results.hand": "Resultados - Mano {{ handNumber }}",
+  "total.tricks":  "Bazas totales",
+
+  "scores.hand": "Resultados - Mano {{ handNumber }}"
+}
