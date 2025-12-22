@@ -15,7 +15,7 @@ describe('Pocha Scoring App', () => {
     cy.get('input[placeholder="Player name"]').type('Bob{enter}');
 
     // Remove player
-    cy.contains('Charlie').parent().find('button').click();
+    cy.contains('Charlie').parent().parent().find('button').click();
 
     cy.contains('Alice');
     cy.contains('Bob');
@@ -116,32 +116,32 @@ describe('Pocha Scoring App', () => {
     cy.get('input[placeholder="Player name"]').type('Bob{enter}');
     cy.contains('Next').click();
 
-    cy.get('li[nz-list-item]').should('have.length', 40);
-    cy.get('li[nz-list-item]').eq(0).contains(1);
-    cy.get('li[nz-list-item]').eq(1).contains(2);
-    cy.get('li[nz-list-item]').eq(18).contains(19);
-    cy.get('li[nz-list-item]').eq(19).contains(20);
-    cy.get('li[nz-list-item]').eq(20).contains(20);
-    cy.get('li[nz-list-item]').eq(21).contains(19);
-    cy.get('li[nz-list-item]').eq(38).contains(2);
-    cy.get('li[nz-list-item]').eq(39).contains(1);
+    cy.get('tr').should('have.length', 41);
+    cy.get('tr').eq(1).contains(1);
+    cy.get('tr').eq(2).contains(2);
+    cy.get('tr').eq(19).contains(19);
+    cy.get('tr').eq(20).contains(20);
+    cy.get('tr').eq(21).contains(20);
+    cy.get('tr').eq(22).contains(19);
+    cy.get('tr').eq(39).contains(2);
+    cy.get('tr').eq(40).contains(1);
 
     cy.contains('Back').click();
     cy.get('input[placeholder="Player name"]').type('Charlie{enter}');
     cy.get('input[placeholder="Player name"]').type('David{enter}');
     cy.contains('Next').click();
 
-    cy.get('li[nz-list-item]').should('have.length', 22);
-    cy.get('li[nz-list-item]').eq(0).contains(1);
-    cy.get('li[nz-list-item]').eq(1).contains(2);
-    cy.get('li[nz-list-item]').eq(8).contains(9);
-    cy.get('li[nz-list-item]').eq(9).contains(10);
-    cy.get('li[nz-list-item]').eq(10).contains(10);
-    cy.get('li[nz-list-item]').eq(11).contains(10);
-    cy.get('li[nz-list-item]').eq(12).contains(10);
-    cy.get('li[nz-list-item]').eq(13).contains(9);
-    cy.get('li[nz-list-item]').eq(20).contains(2);
-    cy.get('li[nz-list-item]').eq(21).contains(1);
+    cy.get('tr').should('have.length', 23);
+    cy.get('tr').eq(1).contains(1);
+    cy.get('tr').eq(2).contains(2);
+    cy.get('tr').eq(9).contains(9);
+    cy.get('tr').eq(10).contains(10);
+    cy.get('tr').eq(11).contains(10);
+    cy.get('tr').eq(12).contains(10);
+    cy.get('tr').eq(13).contains(10);
+    cy.get('tr').eq(14).contains(9);
+    cy.get('tr').eq(21).contains(2);
+    cy.get('tr').eq(22).contains(1);
   });
 
   it('edit tricks per hand', () => {
@@ -149,13 +149,13 @@ describe('Pocha Scoring App', () => {
     cy.get('input[placeholder="Player name"]').type('Bob{enter}');
     cy.contains('Next').click();
 
-    cy.get('li[nz-list-item]').eq(19).find('button').click();
-    cy.get('li[nz-list-item]').should('have.length', 39);
+    cy.get('tr').eq(20).find('button').click();
+    cy.get('tr').should('have.length', 40);
 
     cy.get('input.ant-input-number-input').type('50{enter}');
 
-    cy.get('li[nz-list-item]').should('have.length', 40);
-    cy.get('li[nz-list-item]').eq(39).contains(50);
+    cy.get('tr').should('have.length', 41);
+    cy.get('tr').eq(40).contains(50);
   });
 
   it('lets change the language', () => {
