@@ -21,6 +21,8 @@
 
   "results.hand": "Results - Hand {{ handNumber }}",
   "total.tricks":  "Total tricks",
+  "player":  "Player",
+  "total":  "Total",
 
   "scores.hand": "Scores - Hand {{ handNumber }}",
   "new.game": "Start a new game",

@@ -21,6 +21,8 @@
 
   "results.hand": "Resultados - Mano {{ handNumber }}",
   "total.tricks":  "Bazas totales",
+  "player":  "Jugador",
+  "total":  "Total",
 
   "scores.hand": "Resultados - Mano {{ handNumber }}",
   "new.game": "Empezar una partida nueva",

@@ -12,13 +12,16 @@
     }
 
     <nz-table nzBordered [nzData]="gameStore.hands()" [nzFrontPagination]="false" [nzShowPagination]="false" nzSize="small"
-              [nzScroll]="{ x: (120 + 100 * (gameStore.currentHandIndex() + 1)) + 'px' }">
+              [nzScroll]="{ x: (140 + 105 * (gameStore.currentHandIndex() + 1) + 30 * (gameStore.hands().length - gameStore.currentHandIndex() - 1)) + 'px' }">
       <thead>
-        <tr style="display: none;">
-          <th nzWidth="60px"></th>
-          <th nzWidth="60px"></th>
+        <tr>
+          <th nzWidth="80px">{{ 'player' | translate }}</th>
+          <th nzWidth="60px">{{ 'total' | translate }}</th>
           @for (_ of [].constructor(gameStore.currentHandIndex() + 1); track $index) {
-            <th nzWidth="100px"></th>
+            <th nzWidth="105px">{{ gameStore.tricksPerHand()[$index]}}</th>
+          }
+          @for (_ of [].constructor(gameStore.hands().length - gameStore.currentHandIndex() - 1); track $index) {
+            <th nzWidth="30px" style="padding: 3px;">{{ gameStore.tricksPerHand()[gameStore.currentHandIndex() + 1 + $index]}}</th>
           }
         </tr>
       </thead>
@@ -30,15 +33,20 @@
             @for (_ of [].constructor(gameStore.currentHandIndex() + 1); let handIndex = $index; track handIndex) {
               <td nzAlign="center" style="padding-bottom: 1px;">
                 <tr>
-                  {{ getBid(handIndex,playerIndex).actual }} / {{ getBid(handIndex,playerIndex).predicted }}
-                  <nz-tag [nzColor]="preview(getBid(handIndex,playerIndex)) >= 0 ? 'green' : 'red'">
-                    {{preview(getBid(handIndex,playerIndex)) >= 0 ? '+' : ''}}{{ preview(getBid(handIndex,playerIndex)) }}
-                  </nz-tag>
+                  <nz-space>
+                    {{ getBid(handIndex,playerIndex).actual }} / {{ getBid(handIndex,playerIndex).predicted }}
+                    <nz-tag [nzColor]="preview(getBid(handIndex,playerIndex)) >= 0 ? 'green' : 'red'">
+                      {{preview(getBid(handIndex,playerIndex)) >= 0 ? '+' : ''}}{{ preview(getBid(handIndex,playerIndex)) }}
+                    </nz-tag>
+                  </nz-space>
                 </tr>
                 <tr>
                   {{ calculateScore(handIndex)[playerIndex] }}
                 </tr>
               </td>
+            }
+            @for (_ of [].constructor(gameStore.hands().length - gameStore.currentHandIndex() - 1); track $index) {
+              <td></td>
             }
           </tr>
         }
