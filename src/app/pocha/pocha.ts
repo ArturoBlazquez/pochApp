@@ -1,4 +1,4 @@
-import { Component, signal, WritableSignal } from '@angular/core';
+import { Component } from '@angular/core';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzStepsModule } from 'ng-zorro-antd/steps';
 import { PlayerSetup } from './player-setup/player-setup';
@@ -13,6 +13,7 @@ import { ThemeService } from '../theme.service';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { FormsModule } from '@angular/forms';
 import { NzModalModule } from 'ng-zorro-antd/modal';
+import { Share } from './share/share';
 
 @Component({
   selector: 'app-pocha',
@@ -29,6 +30,7 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
     NzModalModule,
     TranslatePipe,
     FormsModule,
+    Share,
   ],
   templateUrl: './pocha.html',
 })
@@ -43,7 +45,9 @@ export class Pocha {
     this.translate.use(this.gameStore.language());
     this.themeService.useTheme(this.gameStore.theme(), true).then();
 
-    if (this.gameStore.hasSavedGameState()) {
+    if(window.location.pathname === '/share'){
+      this.showShareScreen = true
+    } else if (this.gameStore.hasSavedGameState()) {
       this.showModal = true
     }
   }
@@ -59,6 +63,7 @@ export class Pocha {
   ];
 
   showModal = false;
+  showShareScreen = false;
 
   switchLanguage(): void {
     this.gameStore.language.update(language => language == 'es' ? 'en' : 'es');

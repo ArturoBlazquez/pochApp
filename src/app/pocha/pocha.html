@@ -7,46 +7,50 @@
   </nz-page-header-extra>
 </nz-page-header>
 
-@if (gameStore.stage() === 'players-setup' || gameStore.stage() === 'hand-setup'){
-  <nz-steps [nzCurrent]="gameStore.stage() === 'players-setup' ? 0 : 1">
-    <nz-step nzTitle="{{ 'setup.players' | translate }}"></nz-step>
-    <nz-step nzTitle="{{ 'setup.hands' | translate }}"></nz-step>
-    <nz-step nzTitle="{{ 'play' | translate }}"></nz-step>
-  </nz-steps>
-}
+@if (showShareScreen) {
+  <app-share />
+} @else {
+  @if (gameStore.stage() === 'players-setup' || gameStore.stage() === 'hand-setup'){
+    <nz-steps [nzCurrent]="gameStore.stage() === 'players-setup' ? 0 : 1">
+      <nz-step nzTitle="{{ 'setup.players' | translate }}"></nz-step>
+      <nz-step nzTitle="{{ 'setup.hands' | translate }}"></nz-step>
+      <nz-step nzTitle="{{ 'play' | translate }}"></nz-step>
+    </nz-steps>
+  }
 
-@if (gameStore.stage() === 'players-setup') {
-  <player-setup
-    (next)="next()"
-  />
-}
+  @if (gameStore.stage() === 'players-setup') {
+    <player-setup
+      (next)="next()"
+    />
+  }
 
-@if (gameStore.stage() === 'hand-setup') {
-  <hand-setup
-    (next)="next()"
-    (back)="back()"
-  />
-}
+  @if (gameStore.stage() === 'hand-setup') {
+    <hand-setup
+      (next)="next()"
+      (back)="back()"
+    />
+  }
 
-@if (gameStore.stage() === 'predictions') {
-  <predictions-step
-    (next)="next()"
-    (back)="back()"
-  />
-}
+  @if (gameStore.stage() === 'predictions') {
+    <predictions-step
+      (next)="next()"
+      (back)="back()"
+    />
+  }
 
-@if (gameStore.stage() === 'results') {
-  <results-step
-    (next)="next()"
-    (back)="back()"
-  />
-}
+  @if (gameStore.stage() === 'results') {
+    <results-step
+      (next)="next()"
+      (back)="back()"
+    />
+  }
 
-@if (gameStore.stage() === 'scoreboard') {
-  <scores-step
-    (next)="next()"
-    (back)="back()"
-  />
+  @if (gameStore.stage() === 'scoreboard') {
+    <scores-step
+      (next)="next()"
+      (back)="back()"
+    />
+  }
 }
 
 <nz-modal [(nzVisible)]="showModal"

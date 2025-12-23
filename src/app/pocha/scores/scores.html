@@ -54,6 +54,9 @@
       </button>
     }
     @if (gameHasFinished()) {
+      <button nz-button nzType="primary" nzBlock (click)="shareGameState()">
+        <span>{{ 'share.game' | translate }}</span><nz-icon nzType="share-alt" />
+      </button>
       <button nz-button nzType="primary" nzBlock nzDanger (click)="gameStore.resetGameState()">
         <span>{{ 'new.game' | translate }}</span><nz-icon nzType="reload" />
       </button>

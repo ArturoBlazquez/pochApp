@@ -26,5 +26,9 @@
   "new.game": "Start a new game",
   "continue.game": "Continue current game",
   "started.game":  "You have a saved game",
-  "what.to.do": "What do you want to do?"
+  "what.to.do": "What do you want to do?",
+
+  "share.game": "Share game",
+  "game.copied": "Game link copied to the clipboard",
+  "played.on": "Played on"
 }

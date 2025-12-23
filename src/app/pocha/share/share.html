@@ -1,0 +1,46 @@
+<nz-card nzTitle="{{ 'played.on' | translate }}: {{ gameState.date | date }}">
+<nz-space nzDirection="vertical" style="width:100%">
+    <div nz-flex nzJustify="space-around" nzAlign="center">
+      <nz-icon nzType="trophy" nzTheme="twotone" style="font-size: 30px;"/>
+      <nz-avatar nzText="{{ gameState.players[maxScoreIndex][0] }}"></nz-avatar>
+      <span>{{ gameState.players[maxScoreIndex] }}</span>
+      <nz-icon nzType="trophy" nzTheme="twotone" style="font-size: 30px;"/>
+    </div>
+
+    <nz-divider></nz-divider>
+
+    <nz-table nzBordered [nzData]="gameState.hands" [nzFrontPagination]="false" [nzShowPagination]="false" nzSize="small"
+              [nzScroll]="{ x: (120 + 100 * (gameState.currentHandIndex + 1)) + 'px' }">
+      <thead>
+        <tr style="display: none;">
+          <th nzWidth="60px"></th>
+          <th nzWidth="60px"></th>
+          @for (_ of [].constructor(gameState.currentHandIndex + 1); track $index) {
+            <th nzWidth="100px"></th>
+          }
+        </tr>
+      </thead>
+      <tbody>
+        @for (player of gameState.players; let playerIndex = $index; track player) {
+          <tr>
+            <td>{{ player }}</td>
+            <td>{{ scores[$index] }}</td>
+            @for (_ of [].constructor(gameState.currentHandIndex + 1); let handIndex = $index; track handIndex) {
+              <td nzAlign="center" style="padding-bottom: 1px;">
+                <tr>
+                  {{ getBid(handIndex,playerIndex).actual }} / {{ getBid(handIndex,playerIndex).predicted }}
+                  <nz-tag [nzColor]="preview(getBid(handIndex,playerIndex)) >= 0 ? 'green' : 'red'">
+                    {{preview(getBid(handIndex,playerIndex)) >= 0 ? '+' : ''}}{{ preview(getBid(handIndex,playerIndex)) }}
+                  </nz-tag>
+                </tr>
+                <tr>
+                  {{ calculateScore(handIndex)[playerIndex] }}
+                </tr>
+              </td>
+            }
+          </tr>
+        }
+      </tbody>
+    </nz-table>
+  </nz-space>
+</nz-card>

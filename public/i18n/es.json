@@ -26,5 +26,9 @@
   "new.game": "Empezar una partida nueva",
   "continue.game": "Continuar la partida",
   "started.game":  "Tienes una partida ya empezada",
-  "what.to.do": "¿Qué quieres hacer?"
+  "what.to.do": "¿Qué quieres hacer?",
+
+  "share.game": "Compartir partida",
+  "game.copied": "Link de la partida copiado al portapapeles",
+  "played.on": "Jugado el"
 }

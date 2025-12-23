@@ -36,7 +36,7 @@
       <button nz-button nzBlock (click)="goBack()">
         <nz-icon nzType="arrow-left" /><span>{{ 'back' | translate }}</span>
       </button>
-      <button nz-button nzType="primary" nzBlock (click)="startGame()">
+      <button nz-button nzType="primary" nzBlock [disabled]="this.gameStore.tricksPerHand().length == 0" (click)="startGame()">
         <span>{{ 'next' | translate }}</span><nz-icon nzType="arrow-right" />
       </button>
     </nz-space>
