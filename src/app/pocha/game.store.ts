@@ -92,6 +92,10 @@ export class GameStore {
     return this.players()[this.currentHandIndex() % this.players().length];
   }
 
+  getCurrentStarter() {
+    return this.players()[(this.currentHandIndex() + 1) % this.players().length];
+  }
+
   resetGameState() {
     this.stage.set('players-setup');
     this.players.set([]);

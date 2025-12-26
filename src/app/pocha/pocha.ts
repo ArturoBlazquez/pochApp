@@ -45,7 +45,7 @@ export class Pocha {
     this.translate.use(this.gameStore.language());
     this.themeService.useTheme(this.gameStore.theme(), true).then();
 
-    if(window.location.pathname === '/share'){
+    if(window.location.pathname.includes('/share')){
       this.showShareScreen = true
     } else if (this.gameStore.hasSavedGameState()) {
       this.showModal = true

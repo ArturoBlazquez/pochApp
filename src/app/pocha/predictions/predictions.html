@@ -1,6 +1,7 @@
 <nz-card nzTitle="{{ 'predictions.hand' | translate: { handNumber: gameStore.getCurrentHandNumber() } }}">
   <nz-space nzDirection="vertical" style="width:100%">
     <span>{{ 'hands.dealer' | translate: { dealer: gameStore.getCurrentDealer(), numTricks: gameStore.getCurrentNumTricks() } }}</span>
+    <span>{{ 'hands.prediction.starter' | translate: { dealer: gameStore.getCurrentStarter() } }}</span>
 
     <nz-list>
       @for (bid of gameStore.getCurrentHand().bids; track $index) {

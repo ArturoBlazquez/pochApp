@@ -17,9 +17,11 @@
 
   "predictions.hand": "Predictions - Hand {{ handNumber }}",
   "hands.dealer": "{{ dealer }} deals {{ numTricks }} cards",
+  "hands.prediction.starter": "{{ dealer }} starts betting",
   "total.predicted.tricks":  "Total predicted tricks",
 
   "results.hand": "Results - Hand {{ handNumber }}",
+  "hands.starter": "{{ dealer }} starts playing",
   "total.tricks":  "Total tricks",
   "player":  "Player",
   "total":  "Total",
