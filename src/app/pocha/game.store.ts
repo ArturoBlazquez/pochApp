@@ -1,7 +1,9 @@
 import { computed, effect, Injectable, signal } from '@angular/core';
 import { Hand } from './pochaCalculator';
+import { GameEncoder } from './game.encoder';
 
 export type GameState = { stage: string; players: string[]; hands: Hand[]; tricksPerHand: number[], currentHandIndex: number; language: string; theme: string };
+export type SavedGameState = { players: string[]; hands: Hand[]; tricksPerHand: number[], currentHandIndex: number };
 
 @Injectable({ providedIn: 'root' })
 export class GameStore {
@@ -30,7 +32,7 @@ export class GameStore {
     theme: this.theme(),
   }))
 
-  constructor() {
+  constructor(private gameEncoder: GameEncoder) {
     effect(() => {
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify({ ...this.gameState(), ...this.settingState() }));
     });
@@ -44,38 +46,14 @@ export class GameStore {
       this.currentHandIndex() !== 0
   }
 
-  async getShareableGameState() {
-    const gameState = JSON.stringify({ ...this.gameState(), date: new Date() });
+  getShareableGameState() {
+    const gameState = this.gameState();
 
-    const stream = new Blob([gameState]).stream();
-    const compressedStream = stream.pipeThrough(new CompressionStream('deflate'));
-    const chunks = [];
-    for await (const chunk of compressedStream) {
-      chunks.push(chunk);
-    }
-    const compressedBuffer = await new Response(new Blob(chunks)).arrayBuffer();
-
-    // Convert to Base64 and make it URL-friendly
-    return btoa(String.fromCharCode(...new Uint8Array(compressedBuffer)))
-      .replace(/\+/g, '-')
-      .replace(/\//g, '_')
-      .replace(/=+$/, '');
+    return this.gameEncoder.encode(gameState.players, gameState.tricksPerHand, gameState.hands, new Date());
   }
 
-  async loadShareableGameState(gameState: string): Promise<GameState & { date: Date }> {
-    // Restore Base64 padding and characters
-    let base64 = gameState.replace(/-/g, '+').replace(/_/g, '/');
-    while (base64.length % 4) base64 += '=';
-
-    const binary = atob(base64);
-    const bytes = new Uint8Array(binary.length);
-    for (let i = 0; i < binary.length; i++) {
-      bytes[i] = binary.charCodeAt(i);
-    }
-
-    const stream = new Blob([bytes]).stream();
-    const decompressedStream = stream.pipeThrough(new DecompressionStream('deflate'));
-    return JSON.parse(await new Response(decompressedStream).text());
+  loadShareableGameState(gameState: string): SavedGameState & { date: Date } | null {
+    return this.gameEncoder.decode(gameState);
   }
 
   getCurrentHandNumber = computed(() => this.currentHandIndex() + 1);

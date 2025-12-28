@@ -185,7 +185,7 @@ describe('Pocha Scoring App', () => {
   });
 
   it('lets you share a game', () => {
-    cy.visit('http://localhost:4200/share?gameState=eJzt109rwyAYBvDv8p6fDjWaP956225j9LSSg42ylXVpMQl0lHz3kTJoqOtYKbgcBgHBR-EHMe9rDtS05sWRpqbaerfaGm8JtNuYD-cb0kua-7bzWwI9uZWrDIHmG7cfhtpQCXo1tR0WHqju3hd-Xb01pDlotf6a3nln11Xr7HHaVG1nNqRZj0sRvxyd72LjqBzCEUJ8j2C_QlzhY-PoHJFcjbg5SgKEjISQp0gGCBUJoU6RChBp_NeRBogsPiILEHl8RB4giviIIkBwFl_Bw3L1z5ggI9YBLX46oJP4VCdRtCZRvmM1slEUNrJYLX0UhS19Epeb6695N0ciLFd_UK36si9B7VHw6Py9qS3pJYdAAgmFFBlyFODs9BTIkSGFgkQCAV6Cqs57V7fD_ofauj1pwUHWtMNvgWBCzbiYiWTBCy2VVvIuZeyZ-k-GGf2c')
+    cy.visit('http://localhost:4200/share?gameState=QXJ0dXJvH1JlYmVjYR9BbGV4H0FuYQ.Fa.EuFSVcgICEZ.ZtnUxvC')
 
     cy.contains('Arturo');
     cy.contains('Rebeca');

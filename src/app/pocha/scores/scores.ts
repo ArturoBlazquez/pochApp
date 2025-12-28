@@ -62,7 +62,7 @@ export class ScoresStep {
   }
 
   async shareGameState() {
-    const gameState = await this.gameStore.getShareableGameState();
+    const gameState = this.gameStore.getShareableGameState();
     const gameUrl = `share?gameState=${gameState}`;
     if (this.clipboard.copy(`${window.location.origin}/${gameUrl}`)) {
       this.messageService.info(this.translateService.instant('game.copied'));

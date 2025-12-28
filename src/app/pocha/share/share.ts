@@ -4,7 +4,7 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { Bid, calculateBidScore, calculateGameScore } from '../pochaCalculator';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-import { GameState, GameStore } from '../game.store';
+import { GameStore, SavedGameState } from '../game.store';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzFlexModule } from 'ng-zorro-antd/flex';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
@@ -30,7 +30,7 @@ import { DatePipe } from '@angular/common';
   templateUrl: './share.html',
 })
 export class Share implements OnInit {
-  gameState: GameState & { date: Date };
+  gameState: SavedGameState & { date: Date };
 
   scores: number[];
   maxScoreIndex;
@@ -39,7 +39,7 @@ export class Share implements OnInit {
     protected gameStore: GameStore,
     private router: Router,
   ) {
-    this.gameState = {} as GameState & { date: Date };
+    this.gameState = {} as SavedGameState & { date: Date };
     this.scores = [];
     this.maxScoreIndex = 0;
     if (!window.location.search.startsWith('?gameState=')) {
@@ -47,9 +47,13 @@ export class Share implements OnInit {
     }
   }
 
-  async ngOnInit() {
+  ngOnInit() {
     const savedGameState = window.location.search;
-    this.gameState = await this.gameStore.loadShareableGameState(savedGameState.slice(11));
+    const loadedGameState = this.gameStore.loadShareableGameState(savedGameState.slice(11));
+    if (!loadedGameState) {
+      this.router.navigate(['/']).then();
+    }
+    this.gameState = loadedGameState!
     this.scores = calculateGameScore(this.gameState.hands, this.gameState.currentHandIndex);
     this.maxScoreIndex = this.scores.indexOf(Math.max(...this.scores));
   }

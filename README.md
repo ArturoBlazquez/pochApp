@@ -32,3 +32,5 @@ We use [ng-zorro](https://ng.ant.design/components/overview/en) as component lib
 We use [npx-translate](https://github.com/ngx-translate/core) to internationalize the app.
 
 Right now we don't have unit tests configured so we are temporarily using the anti pattern of running unit tests on Cypress 
+
+We are not using angular router, because right now there are only 2 screens
