@@ -56,16 +56,19 @@ export class GameEncoder {
   decodeTricksPerHand(tricksPerHand: string): number[] {
     let binaryTricksPerHand = this.base64Decode(tricksPerHand);
 
+    console.log(binaryTricksPerHand);
+
     if (binaryTricksPerHand.length % 4 !== 0) {
-      binaryTricksPerHand = `${'0'.repeat(6 - (binaryTricksPerHand.length % 6))}${binaryTricksPerHand}`;
+      binaryTricksPerHand = `${'0'.repeat(4 - (binaryTricksPerHand.length % 4))}${binaryTricksPerHand}`;
     }
+
+    console.log(binaryTricksPerHand);
 
     return this.splitString(binaryTricksPerHand, 4).map(bytes => parseInt(bytes, 2));
   }
 
   decodeHands(bids: string, tricksPerHand: number[], numberOfPlayers: number): Hand[] {
     let binaryBids = this.base64Decode(bids).slice(1);
-    console.log(binaryBids)
     const hands = []
     let currentBids;
 
@@ -100,10 +103,7 @@ export class GameEncoder {
       binaryLength = 4;
     }
 
-    console.log(numberOfPlayers)
     const currentBinaryBid = bid.slice(2, 2 + binaryLength * numberOfPlayers * 2)
-    console.log(currentBinaryBid)
-
     const currentBids = this.splitString(currentBinaryBid, binaryLength)
 
     for (let i = 0; i < currentBids.length; i += 2) {
