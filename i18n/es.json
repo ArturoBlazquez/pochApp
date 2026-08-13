@@ -17,12 +17,12 @@
 
   "predictions.hand": "Apuestas - Mano {{ handNumber }}",
   "hands.dealer": "{{ dealer }} reparte {{ numTricks }} cartas",
-  "hands.predictions.starter": "{{ dealer }} empieza pidiendo",
-  "total.predictions.tricks":  "Total de bazas pedidas",
+  "hands.prediction.starter": "{{ dealer }} empieza pidiendo",
+  "total.predicted.tricks":  "Total de bazas pedidas",
 
   "results.hand": "Resultados - Mano {{ handNumber }}",
-  "hands.results.starter": "{{ dealer }} empieza a jugar",
-  "total.results.tricks":  "Totales de bazas hechas",
+  "hands.starter": "{{ dealer }} empieza a jugar",
+  "total.tricks":  "Totales de bazas hechas",
   "player":  "Jugador",
   "total":  "Total",
 
